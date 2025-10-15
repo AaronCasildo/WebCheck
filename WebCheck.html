@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthCheck - Conversor de Resultados de Laboratorio</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="logo-section">
+            <a href="#" class="logo">
+                <div class="logo-icon"></div>
+                <span>HealthCheck</span>
+            </a>
+        </div>
+
+        <div class="right-menu">
+            <button class="btn-secondary">Iniciar sesión</button>
+            <button class="btn-primary">Prueba gratuita</button>
+        </div>
+    </header>
+
+    <div class="breadcrumb">
+        <a href="#">Checkeo de resultados de laboratorio</a>
+    </div>
+
+    <main>
+        <h1>Ingresa tus resultados de laboratorio.</h1>
+
+        <div class="upload-container" id="uploadContainer">
+            <div class="upload-icon">
+                <svg viewBox="0 0 64 64">
+                    <rect x="12" y="8" width="32" height="42" rx="2" />
+                    <rect x="20" y="14" width="16" height="12" rx="1" />
+                    <text x="28" y="23" fill="white" font-size="8" font-weight="bold">PDF</text>
+                    <path d="M28 35 L32 31 L36 35 M32 31 L32 45" stroke-width="2" stroke-linecap="round" />
+                </svg>
+            </div>
+            
+            <input type="file" id="fileInput" accept=".pdf" multiple>
+            <button class="upload-btn" onclick="document.getElementById('fileInput').click()">
+                <span>📄</span>
+                ELEGIR ARCHIVOS
+            </button>
+            
+            <p class="upload-text">o soltar archivos aquí</p>
+        </div>
+
+        <div class="features">
+            <div>
+                <p class="description">
+                    Transforma tus resultados de laboratorio complicados de entender en palabras del día a día!
+                </p>
+            </div>
+            
+            <div class="feature-list">
+                <div class="feature-item">
+                    <div class="check-icon"></div>
+                    <p class="feature-text">Funciona en Mac, Windows y otras plataformas</p>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="check-icon"></div>
+                    <p class="feature-text">Mantén el formato original de tu PDF y sin marcas de agua</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
