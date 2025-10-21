@@ -45,7 +45,6 @@ async function handleFiles(files) {
     
     console.log(`Procesando ${pdfFiles.length} archivo(s)...`);
     
-    // Procesar cada PDF
     for (let i = 0; i < pdfFiles.length; i++) {
         const file = pdfFiles[i];
         const formData = new FormData();
@@ -53,17 +52,23 @@ async function handleFiles(files) {
         
         try {
             console.log(`Enviando: ${file.name} (${i + 1}/${pdfFiles.length})`);
+            console.log(`Tamaño del archivo: ${file.size} bytes`);
             
             const response = await fetch('http://localhost:8000/upload-pdf', {
                 method: 'POST',
                 body: formData
             });
             
+            // Check answer status
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
             const result = await response.json();
-            console.log(`${file.name}:`, result);
+            console.log(`✅ ${file.name} enviado exitosamente:`, result);
             
         } catch (error) {
-            console.error(`Error con ${file.name}:`, error);
+            console.error(`❌ Error con ${file.name}:`, error);
         }
     }
     
