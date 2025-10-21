@@ -7,8 +7,10 @@
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     color: #333;
+    background: #f8fafc;
 }
 
+/* ======= ENCABEZADO ======= */
 header {
     display: flex;
     align-items: center;
@@ -16,6 +18,8 @@ header {
     padding: 16px 40px;
     border-bottom: 1px solid #e0e0e0;
     background: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border-radius: 0 0 16px 16px;
 }
 
 .logo-section {
@@ -32,74 +36,43 @@ header {
     font-weight: 700;
     text-decoration: none;
     color: #333;
+    transition: transform 0.2s ease, color 0.3s ease;
+}
+
+.logo:hover {
+    transform: scale(1.05);
+    color: #4b7bec;
 }
 
 .logo-icon {
     width: 40px;
     height: 40px;
     background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 25%, #c44569 50%, #786fa6 75%, #4b7bec 100%);
-    border-radius: 8px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(75, 123, 236, 0.3);
 }
 
-.nav-menu {
-    display: flex;
-    align-items: center;
-    gap: 24px;
-}
-
-.nav-link {
-    text-decoration: none;
-    color: #666;
-    font-size: 15px;
-    transition: color 0.2s;
-}
-
-.nav-link:hover {
-    color: #333;
-}
-
-.tools-btn {
-    background: none;
-    border: none;
-    color: #4b7bec;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.right-menu {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-}
-
+/* ======= BOTONES ======= */
 .btn-primary {
     background: #4b7bec;
     color: white;
     border: none;
     padding: 10px 24px;
-    border-radius: 6px;
+    border-radius: 25px;
     font-size: 15px;
     font-weight: 600;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 10px rgba(75, 123, 236, 0.3);
 }
 
 .btn-primary:hover {
     background: #3867d6;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 14px rgba(75, 123, 236, 0.5);
 }
 
-.btn-secondary {
-    background: none;
-    border: none;
-    color: #666;
-    font-size: 15px;
-    cursor: pointer;
-}
-
+/* ======= BREADCRUMB ======= */
 .breadcrumb {
     padding: 20px 40px;
     color: #666;
@@ -107,40 +80,49 @@ header {
 }
 
 .breadcrumb a {
-    color: #666;
+    color: #4b7bec;
     text-decoration: none;
+    transition: color 0.3s ease;
 }
 
+.breadcrumb a:hover {
+    color: #3867d6;
+}
+
+/* ======= CONTENIDO ======= */
 main {
     max-width: 1400px;
     margin: 0 auto;
     padding: 40px 40px 80px;
+    text-align: center;
 }
 
 h1 {
-    text-align: center;
-    font-size: 48px;
+    font-size: 44px;
     margin-bottom: 60px;
-    color: #333;
+    color: #222;
 }
 
+/* ======= CONTENEDOR DE SUBIDA ======= */
 .upload-container {
     background: linear-gradient(135deg, #667eea 0%, #4b7bec 100%);
-    border-radius: 12px;
+    border-radius: 20px;
     padding: 80px 40px;
     text-align: center;
     border: 3px dashed rgba(255, 255, 255, 0.3);
-    transition: all 0.3s;
+    transition: all 0.4s ease;
     cursor: pointer;
+    box-shadow: 0 6px 20px rgba(75, 123, 236, 0.25);
 }
 
 .upload-container:hover {
     border-color: rgba(255, 255, 255, 0.6);
-    transform: translateY(-2px);
+    transform: translateY(-4px);
+    background: linear-gradient(135deg, #5a67d8 0%, #3867d6 100%);
+    box-shadow: 0 10px 30px rgba(75, 123, 236, 0.4);
 }
 
 .upload-container.drag-over {
-    background: linear-gradient(135deg, #5a67d8 0%, #3867d6 100%);
     border-color: white;
 }
 
@@ -163,92 +145,104 @@ h1 {
     color: #333;
     border: none;
     padding: 14px 32px;
-    border-radius: 6px;
+    border-radius: 30px;
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    transition: all 0.2s;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
 .upload-btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+    background-color: #f0f3ff;
 }
 
 .upload-text {
     color: white;
     margin-top: 20px;
-    font-size: 14px;
+    font-size: 15px;
+    letter-spacing: 0.5px;
 }
 
+/* ======= SECCIÓN DE CARACTERÍSTICAS ======= */
 .features {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 30px;
     margin-top: 60px;
-}
-
-.description {
-    font-size: 18px;
-    color: #666;
-    line-height: 1.6;
+    text-align: center;
 }
 
 .feature-list {
     display: flex;
-    flex-direction: column;
-    gap: 20px;
+    justify-content: center;
+    align-items: stretch;
+    gap: 30px;
+    flex-wrap: wrap;
 }
 
 .feature-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 25px 30px;
+    width: 300px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.feature-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(75,123,236,0.25);
 }
 
 .check-icon {
-    width: 24px;
-    height: 24px;
+    width: 30px;
+    height: 30px;
     background: #10b981;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0;
-    margin-top: 2px;
+    margin: 0 auto 10px;
 }
 
 .check-icon::after {
     content: '✓';
     color: white;
     font-weight: bold;
-    font-size: 14px;
+    font-size: 16px;
 }
 
 .feature-text {
     color: #333;
     font-size: 16px;
-    line-height: 1.5;
+    line-height: 1.6;
 }
 
 input[type="file"] {
     display: none;
 }
 
+/* ======= RESPONSIVE ======= */
 @media (max-width: 768px) {
     .features {
-        grid-template-columns: 1fr;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .feature-item {
+        width: 90%;
     }
 
     h1 {
         font-size: 32px;
-    }
-
-    .nav-menu {
-        display: none;
     }
 }
