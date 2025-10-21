@@ -1,7 +1,13 @@
-#to run the backend server, use the command: uvicorn main:app --reload
+#to run the backend server, use the command: Backend> uvicorn main:app --reload
+from pathlib import Path
+from PIL import Image
+import fitz
+import io
+import pytesseract
 
 from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+
 
 app = FastAPI()
 
