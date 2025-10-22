@@ -264,8 +264,8 @@ input[type="file"] {
         width: 90%;
     }
 
-    h1 {
-        font-size: 32px;
+    .feature-item {
+        width: 90%;
     }
 }
 
