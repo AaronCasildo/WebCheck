@@ -1,3 +1,7 @@
+/* ============================================== */
+/* CSS ACTUALIZADO CON PALETA CLÁSICA Y DE CONFIANZA */
+/* ============================================== */
+
 * {
     margin: 0;
     padding: 0;
@@ -6,8 +10,8 @@
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    color: #333;
-    background: #f8fafc;
+    color: #212529; /* TEXTO: Azul Oscuro/Casi Negro */
+    background: #F8F9FA; /* FONDO: Gris Claro */
 }
 
 /* ======= ENCABEZADO ======= */
@@ -35,26 +39,29 @@ header {
     font-size: 24px;
     font-weight: 700;
     text-decoration: none;
-    color: #333;
+    color: #212529; /* Color de texto base */
     transition: transform 0.2s ease, color 0.3s ease;
 }
 
 .logo:hover {
     transform: scale(1.05);
-    color: #4b7bec;
+    color: #007BFF; /* Azul Médico Principal al hacer hover */
 }
 
 .logo-icon {
     width: 40px;
     height: 40px;
-    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 25%, #c44569 50%, #786fa6 75%, #4b7bec 100%);
+    /* Aplicando el color principal a la sección del logo */
+    background: #007BFF; 
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(75, 123, 236, 0.3);
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
 }
 
-/* ======= BOTONES ======= */
-.btn-primary {
-    background: #4b7bec;
+/* ======= BOTONES (CTA) - SECCIÓN MODIFICADA ======= */
+
+.btn-primary, /* Para botones */
+a.btn-primary { /* PARA ENLACES (<a>) con estilo de botón */
+    background: #007BFF; /* Azul Médico Principal */
     color: white;
     border: none;
     padding: 10px 24px;
@@ -62,34 +69,45 @@ header {
     font-size: 15px;
     font-weight: 600;
     cursor: pointer;
+    text-decoration: none; /* ELIMINA LA RAYA DEL ENLACE */
+    display: inline-block; /* NECESARIO para que el padding y transform funcionen bien */
     transition: all 0.3s ease;
-    box-shadow: 0 3px 10px rgba(75, 123, 236, 0.3);
+    box-shadow: 0 3px 10px rgba(0, 123, 255, 0.3);
 }
 
-.btn-primary:hover {
-    background: #3867d6;
-    transform: translateY(-2px);
-    box-shadow: 0 5px 14px rgba(75, 123, 236, 0.5);
+.btn-primary:hover, /* Para botones */
+a.btn-primary:hover { /* PARA ENLACES (<a>) con estilo de botón */
+    background: #0056b3; /* Tono de azul más oscuro para hover */
+    transform: translateY(-2px); /* ANIMACIÓN DE SUBIDA RESTAURADA */
+    box-shadow: 0 5px 14px rgba(0, 123, 255, 0.5);
 }
 
-/* ======= BREADCRUMB ======= */
+/* ======= BREADCRUMB / ENLACES (SECCIÓN CORREGIDA) ======= */
 .breadcrumb {
     padding: 20px 40px;
-    color: #666;
+    color: #6c757d; /* Un gris neutro y profesional */
     font-size: 14px;
 }
 
 .breadcrumb a {
-    color: #4b7bec;
+    color: #007BFF; /* Azul Médico Principal para links */
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
 .breadcrumb a:hover {
-    color: #3867d6;
+    color: #0056b3; /* Tono de azul más oscuro para hover */
 }
 
-/* ======= CONTENIDO ======= */
+/* !!! FIX DE ESPECIFICIDAD CLAVE !!! */
+/* Soluciona el problema de color de texto invisible y la velocidad de la transición */
+.breadcrumb a.btn-primary {
+    color: white; 
+    transition: all 0.3s ease; /* Asegura que la velocidad de la animación sea suave */
+}
+
+
+/* ======= CONTENIDO PRINCIPAL ======= */
 main {
     max-width: 1400px;
     margin: 0 auto;
@@ -100,26 +118,28 @@ main {
 h1 {
     font-size: 44px;
     margin-bottom: 60px;
-    color: #222;
+    color: #212529; /* Título oscuro para legibilidad */
 }
 
-/* ======= CONTENEDOR DE SUBIDA ======= */
+/* ======= CONTENEDOR DE SUBIDA (DROPZONE) ======= */
 .upload-container {
-    background: linear-gradient(135deg, #667eea 0%, #4b7bec 100%);
+    /* Gradiente con tonos de Azul Médico para profesionalidad */
+    background: linear-gradient(135deg, #3792FF 0%, #007BFF 100%);
     border-radius: 20px;
     padding: 80px 40px;
     text-align: center;
     border: 3px dashed rgba(255, 255, 255, 0.3);
     transition: all 0.4s ease;
     cursor: pointer;
-    box-shadow: 0 6px 20px rgba(75, 123, 236, 0.25);
+    box-shadow: 0 6px 20px rgba(0, 123, 255, 0.25);
 }
 
 .upload-container:hover {
     border-color: rgba(255, 255, 255, 0.6);
     transform: translateY(-4px);
-    background: linear-gradient(135deg, #5a67d8 0%, #3867d6 100%);
-    box-shadow: 0 10px 30px rgba(75, 123, 236, 0.4);
+    /* Tono más oscuro al pasar el ratón */
+    background: linear-gradient(135deg, #1A88FF 0%, #0056b3 100%);
+    box-shadow: 0 10px 30px rgba(0, 123, 255, 0.4);
 }
 
 .upload-container.drag-over {
@@ -141,8 +161,9 @@ h1 {
 }
 
 .upload-btn {
+    /* Botón interno blanco para máximo contraste y foco */
     background: white;
-    color: #333;
+    color: #212529; /* Texto interno oscuro */
     border: none;
     padding: 14px 32px;
     border-radius: 30px;
@@ -159,7 +180,7 @@ h1 {
 .upload-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(0,0,0,0.25);
-    background-color: #f0f3ff;
+    background-color: #f0f3ff; /* Un blanco azulado sutil */
 }
 
 .upload-text {
@@ -200,13 +221,14 @@ h1 {
 
 .feature-item:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(75,123,236,0.25);
+    /* Sombra con el azul principal para el hover */
+    box-shadow: 0 8px 20px rgba(0, 123, 255, 0.25); 
 }
 
 .check-icon {
     width: 30px;
     height: 30px;
-    background: #10b981;
+    background: #28A745; /* Verde Acento (Éxito/Salud) */
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -222,7 +244,7 @@ h1 {
 }
 
 .feature-text {
-    color: #333;
+    color: #333; /* Mantener un color oscuro para buena legibilidad */
     font-size: 16px;
     line-height: 1.6;
 }
@@ -242,7 +264,188 @@ input[type="file"] {
         width: 90%;
     }
 
-    h1 {
-        font-size: 32px;
+    .feature-item {
+        width: 90%;
     }
+}
+
+/* ============================================== */
+/* ESTILOS ESPECÍFICOS DEL FORMULARIO DE REGISTRO */
+/* ============================================== */
+
+/* Centra el contenido en main (usado en register.html) */
+.center-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+    padding-bottom: 50px;
+}
+
+/* Estilo para la tarjeta/contenedor del formulario */
+.form-card {
+    background: white;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    width: 100%;
+    max-width: 450px; /* Ancho máximo para que no se extienda demasiado */
+    margin-top: 20px;
+}
+
+.form-card h2 {
+    font-size: 28px;
+    color: #212529;
+    margin-bottom: 5px;
+}
+
+.form-subtitle {
+    color: #6c757d;
+    margin-bottom: 25px;
+    font-size: 15px;
+}
+
+.form-field {
+    margin-bottom: 20px;
+}
+
+.form-field label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #212529;
+    font-size: 14px;
+}
+
+.form-field input[type="text"],
+.form-field input[type="email"],
+.form-field input[type="password"],
+.form-field input[type="number"] {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-field input:focus {
+    border-color: #007BFF; /* Azul Médico al enfocar */
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+
+/* Estilo para poner Nombre y Apellido en la misma línea */
+.form-group-inline {
+    display: flex;
+    gap: 20px;
+}
+
+.form-group-inline .form-field {
+    flex: 1;
+}
+
+/* Botón de envío que ocupa todo el ancho */
+.full-width-btn {
+    width: 100%;
+    margin-top: 10px;
+    padding: 14px 24px;
+}
+
+.login-link {
+    text-align: center;
+    margin-top: 25px;
+    font-size: 14px;
+    color: #6c757d;
+}
+
+.login-link a {
+    color: #007BFF;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.login-link a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+/* Ajuste Responsive para el formulario */
+@media (max-width: 500px) {
+    .form-card {
+        padding: 20px;
+        margin-left: 15px;
+        margin-right: 15px;
+    }
+    .form-group-inline {
+        flex-direction: column;
+        gap: 0;
+    }
+}
+
+/* ============================================== */
+/* ESTILOS PARA EL CONTENEDOR VACÍO DE RESULTADOS */
+/* ============================================== */
+
+.empty-results-container {
+    background: #ffffff; /* Fondo blanco para contraste */
+    border: 2px dashed #ced4da; /* Borde punteado sutil */
+    border-radius: 15px;
+    padding: 80px 40px;
+    margin-bottom: 60px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.placeholder-text {
+    font-size: 24px;
+    font-weight: 600;
+    color: #007BFF; /* Azul principal para el título del placeholder */
+    margin-bottom: 10px;
+}
+
+.placeholder-description {
+    font-size: 16px;
+    color: #6c757d; /* Gris sutil */
+    max-width: 600px;
+    margin: 0 auto 30px;
+}
+
+/* Estilo para simular una carga (opcional, mejora la sensación) */
+.loading-animation {
+    width: 50px;
+    height: 5px;
+    background-color: #007BFF;
+    border-radius: 5px;
+    margin: 20px auto 0;
+    opacity: 0.5;
+    animation: pulse 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse {
+    0% { transform: scaleX(0.5); opacity: 0.4; }
+    50% { transform: scaleX(1); opacity: 0.8; }
+    100% { transform: scaleX(0.5); opacity: 0.4; }
+}
+/* ============================================== */
+/* ESTILOS PARA EL FOOTER DE DISCLAIMER (ADVERTENCIA) */
+/* ============================================== */
+
+.disclaimer-footer {
+    max-width: 1200px;
+    margin: 40px auto 20px; /* Margen superior y centrado */
+    padding: 20px;
+    background-color: #FFF3CD; /* Fondo amarillo claro (color de advertencia/atención) */
+    color: #856404; /* Texto marrón oscuro para contraste */
+    border: 1px solid #FFEEBA;
+    border-left: 5px solid #FFC107; /* Borde izquierdo amarillo/naranja más fuerte */
+    border-radius: 8px;
+    font-size: 14px;
+    line-height: 1.5;
+    text-align: left; /* Alineación a la izquierda para mejor lectura */
+}
+
+.disclaimer-footer strong {
+    font-weight: 700;
 }
