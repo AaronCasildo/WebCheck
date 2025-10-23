@@ -31,16 +31,16 @@
             <h2>Acceder a HealthCheck</h2>
             <p class="form-subtitle">Ingresa tus credenciales para continuar con tus resultados.</p>
             
-            <form action="/WebCheck.html" method="POST">
+            <form onsubmit="handleLogin(event)">
                 
                 <div class="form-field">
                     <label for="correo_login">Correo Electrónico</label>
-                    <input type="email" id="correo_login" name="correo" required>
+                    <input type="email" id="correo" name="correo" required>
                 </div>
 
                 <div class="form-field">
                     <label for="contrasena_login">Contraseña</label>
-                    <input type="password" id="contrasena_login" name="contrasena" required minlength="8">
+                    <input type="password" id="contrasena" name="contrasena" required minlength="8">
                 </div>
                 
                 <button type="submit" class="btn-primary full-width-btn">Iniciar Sesión</button>
