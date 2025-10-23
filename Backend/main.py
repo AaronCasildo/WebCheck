@@ -1,3 +1,4 @@
+# Initialize the service by executing: uvicorn main:app --reload 
 from pathlib import Path
 from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -22,7 +23,7 @@ if not api_key:
 # Initialze FastAPI and GenAI
 app = FastAPI()
 genai.configure(api_key=api_key)
-model = genai.GenerativeModel('gemini-1.5-flash')
+model = genai.GenerativeModel('gemini-2.5-flash')
 
 app.add_middleware(
     CORSMiddleware,
@@ -33,6 +34,21 @@ app.add_middleware(
 
 @app.post("/upload-pdf")
 async def upload_pdf(file: UploadFile = File(...)):
+    
+    def generate_response(texto_completo):
+        try:
+            response = model.generate_content(
+                contents="Revisa los contenidos de los siguientes resultados de laboratorio como si " +
+                "fueras un doctor especialista en hematología e identifica las areas de riesgo del" +
+                "paciente para posteriormente explicarselas de forma sencilla de entender para la persona promedio."
+                "\n"+
+                (texto_completo)
+            )
+            return response.text
+        
+        except Exception as e: 
+            logger.error(f'Error generating response: {e}')
+
     logger.info(f"📥 Recibiendo archivo: {file.filename}")
     
     if not file.filename.endswith('.pdf'):
@@ -81,6 +97,12 @@ async def upload_pdf(file: UploadFile = File(...)):
         print("="*50)
         print(texto_completo[:500])
         print("="*50 + "\n")
+
+        try:   
+            result = generate_response(texto_completo)
+            print (result)
+        except Exception as e: 
+            logger.error(f'Error generating response: {e}')
         
         return {
             "message": "PDF procesado correctamente",
@@ -90,9 +112,9 @@ async def upload_pdf(file: UploadFile = File(...)):
             "pages": num_paginas,  # Usar la variable guardada
             "text_length": len(texto_completo),
             "text_preview": texto_completo[:200] + "..." if len(texto_completo) > 200 else texto_completo,
-            "saved_path": str(ruta_txt)
-        }
-        
+            "saved_path": str(ruta_txt),
+            "analysis_result": result
+        }    
     except Exception as e:
         logger.error(f"❌ Error procesando PDF: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Error procesando PDF: {str(e)}")
