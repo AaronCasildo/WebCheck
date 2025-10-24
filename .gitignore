@@ -1,1 +1,32 @@
+# Ignore the testing outputs
 **/Backend/outputs
+
+# Ignore the env file
+.env
+*.env
+.env.local
+
+# Python - IMPORTANTE
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual Environment
+venv/
+env/
+ENV/
+.venv
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

@@ -449,3 +449,45 @@ input[type="file"] {
 .disclaimer-footer strong {
     font-weight: 700;
 }
+
+/* Añade esto a tu styles.css si aún no lo tienes */
+.final-cta {
+    padding: 30px;
+    border-top: 1px solid #eee; /* Opcional: una línea de separación sutil */
+    text-align: center;
+}
+
+/* ============================================== */
+/* ESTILOS PARA EL EFECTO DE TEXTO EN FORMA DE OLA */
+/* ============================================== */
+
+.wave-text {
+    /* Es importante que los spans se muestren en línea pero permitan transformación */
+    display: flex;
+    justify-content: center; /* Centra el texto */
+    align-items: flex-end; /* Asegura que la línea de base sea uniforme */
+    line-height: 2; /* Para controlar el espacio vertical */
+    overflow: hidden; /* Oculta posibles desbordes durante el movimiento */
+}
+
+.wave-text .char {
+    display: inline-block;
+    /* La duración total de la animación es 2 segundos */
+    animation: wave-bounce 2s infinite ease-in-out;
+    /* Calcula el retraso de la animación usando el índice de la letra.
+       0.05s por letra crea el efecto de ola lenta. */
+    animation-delay: calc(var(--char-index) * 0.05s); 
+    
+    /* Pequeño margen para separar las letras, si es necesario */
+    margin: 0 1px;
+}
+
+/* Define la animación de "rebote" (subir y bajar) */
+@keyframes wave-bounce {
+    0%, 100% {
+        transform: translateY(0); /* Posición inicial/final (abajo) */
+    }
+    50% {
+        transform: translateY(-15px); /* Posición media (arriba) - Ajusta este valor si quieres que se mueva más */
+    }
+}
