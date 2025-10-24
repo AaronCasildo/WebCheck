@@ -38,11 +38,32 @@ async def upload_pdf(file: UploadFile = File(...)):
     def generate_response(texto_completo):
         try:
             response = model.generate_content(
-                contents="Revisa los contenidos de los siguientes resultados de laboratorio como si " +
-                "fueras un doctor especialista en hematología e identifica las areas de riesgo del" +
-                "paciente para posteriormente explicarselas de forma sencilla de entender para la persona promedio."
-                "\n"+
-                (texto_completo)
+                contents=f"""Eres un hematólogo experto analizando resultados de laboratorio. Tu tarea tiene tres partes:
+                    1. ANÁLISIS TÉCNICO:
+                    - Identifica todos los valores fuera del rango normal
+                    - Clasifica cada hallazgo por nivel de severidad (crítico, moderado, leve)
+                    - Detecta patrones o relaciones entre diferentes parámetros
+
+                    2. INTERPRETACIÓN CLÍNICA:
+                    - Explica qué significa cada valor anormal para la salud del paciente
+                    - Identifica posibles condiciones o riesgos asociados
+                    - Destaca cualquier hallazgo que requiera atención inmediata
+
+                    3. EXPLICACIÓN PARA EL PACIENTE:
+                    - Traduce los hallazgos a lenguaje simple y claro
+                    - Usa analogías cuando sea apropiado
+                    - Proporciona contexto sobre qué acciones podría considerar (sin sustituir consulta médica)
+
+                    FORMATO DE RESPUESTA:
+                    - Usa secciones claramente definidas
+                    - Destaca los puntos críticos
+                    - Evita alarmismo innecesario pero sé honesto sobre riesgos reales
+                    - Incluye un resumen ejecutivo al inicio
+
+                    RECORDATORIO IMPORTANTE: Esta es una interpretación informativa. Siempre recomienda consultar con su médico tratante para decisiones clínicas.
+
+                    RESULTADOS DE LABORATORIO:
+                    {texto_completo}"""
             )
             return response.text
         
