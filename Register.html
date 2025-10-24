@@ -15,7 +15,7 @@
                 <span>HealthCheck</span>
             </a>
         </div>
-        
+
         <div class="right-menu">
              <button class="btn-primary" onclick="window.location.href='login.html'">Iniciar sesión</button>
         </div>
@@ -29,7 +29,7 @@
         <div class="form-card">
             <h2>Crear una Cuenta</h2>
             <p class="form-subtitle">Ingresa tus datos para registrarte y empezar a comprender tus resultados.</p>
-            
+
             <form onsubmit="handleRegister(event)">
                 <div class="form-group-inline">
                     <div class="form-field">
@@ -55,11 +55,12 @@
                 <div class="form-field">
                     <label for="contrasena">Contraseña</label>
                     <input type="password" id="contrasena" name="contrasena" required minlength="8">
+                    <small style="color: #666;">Mínimo 8 caracteres</small>
                 </div>
 
                 <button type="submit" class="btn-primary full-width-btn">Registrarse</button>
             </form>
-            
+
             <p class="login-link">
                 ¿Ya tienes una cuenta? <a href="Login.html">Inicia sesión aquí</a>
             </p>

@@ -1,5 +1,52 @@
+const API_URL = 'http://localhost:5500';
+
 const uploadContainer = document.getElementById('uploadContainer');
 const fileInput = document.getElementById('fileInput');
+
+//Function for register validation
+async function handleRegister(event) {
+    event.preventDefault();
+    
+    const data = {
+        nombre: document.getElementById('nombre').value,
+        apellido: document.getElementById('apellido').value,
+        edad: parseInt(document.getElementById('edad').value),
+        correo: document.getElementById('correo').value,
+        contrasena: document.getElementById('contrasena').value
+    };
+    
+    // Validación básica
+    if (data.contrasena.length < 8) {
+        alert('La contraseña debe tener al menos 8 caracteres');
+        return;
+    }
+    
+    try {
+        console.log('📤 Enviando registro...', { ...data, contrasena: '***' });
+        
+        const response = await fetch(`${API_URL}/register`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+        
+        const result = await response.json();
+        
+        if (!response.ok) {
+            throw new Error(result.detail || 'Error en el registro');
+        }
+        
+        console.log('✅ Registro exitoso:', result);
+        alert('¡Registro exitoso! Redirigiendo al login...');
+        window.location.href = 'Login.html';
+        
+    } catch (error) {
+        console.error('❌ Error en registro:', error);
+        alert(`Error: ${error.message}`);
+    }
+}
 
 // Drag and drop functionality
 ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
