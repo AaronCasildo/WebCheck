@@ -71,7 +71,7 @@ async function handleFiles(files) {
             sessionStorage.setItem('fileName', file.name);
             
             // Redirect to results page
-            window.location.href = './pages/WebResult.html';
+            window.location.href = 'Frontend/Results.html';
             
         } catch (error) {
             console.error(`❌ Error con ${file.name}:`, error);
