@@ -1,4 +1,5 @@
-# Initialize the service by executing: uvicorn main:app --reload 
+# main.py
+
 from pathlib import Path
 from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -7,6 +8,7 @@ import google.generativeai as genai
 from dotenv import load_dotenv
 import os
 import logging
+import json # Importante: Añadir la librería json
 
 # Safe load environment variables
 load_dotenv()
@@ -23,7 +25,7 @@ if not api_key:
 # Initialze FastAPI and GenAI
 app = FastAPI()
 genai.configure(api_key=api_key)
-model = genai.GenerativeModel('gemini-2.5-flash')
+model = genai.GenerativeModel('gemini-2.5-flash') 
 
 app.add_middleware(
     CORSMiddleware,
@@ -36,106 +38,79 @@ app.add_middleware(
 async def upload_pdf(file: UploadFile = File(...)):
     
     def generate_response(texto_completo):
+        prompt = f"""
+            Eres un hematólogo experto analizando resultados de laboratorio. Analiza los siguientes resultados y proporciona una respuesta estructurada en formato JSON. El JSON debe contener tres claves principales: "interpretacionConceptos", "resultadosSimplificados" y "resumenEjecutivo".
+
+            1.  **interpretacionConceptos**:
+                -   Aquí va el ANÁLISIS TÉCNICO y la INTERPRETACIÓN CLÍNICA.
+                -   Identifica valores fuera de rango, clasifícalos por severidad (crítico, moderado, leve) y explica qué significan clínicamente.
+                -   Usa formato Markdown para listas y énfasis (ej. **texto en negrita** o - elemento de lista).
+
+            2.  **resultadosSimplificados**:
+                -   Aquí va la EXPLICACIÓN PARA EL PACIENTE.
+                -   Traduce todos los hallazgos a un lenguaje simple y claro, como si hablaras con una persona sin conocimientos médicos.
+                -   Usa analogías y proporciona contexto sobre posibles siguientes pasos (sin sustituir la consulta médica).
+                -   Usa formato Markdown.
+
+            3.  **resumenEjecutivo**:
+                -   Un párrafo muy breve y conciso con los hallazgos más importantes.
+
+            Asegúrate de que la salida sea un único objeto JSON válido y nada más. No incluyas "```json" o "```" en la respuesta.
+
+            RESULTADOS DE LABORATORIO:
+            {texto_completo}
+        """
         try:
-            response = model.generate_content(
-                contents=f"""Eres un hematólogo experto analizando resultados de laboratorio. Tu tarea tiene tres partes:
-                    1. ANÁLISIS TÉCNICO:
-                    - Identifica todos los valores fuera del rango normal
-                    - Clasifica cada hallazgo por nivel de severidad (crítico, moderado, leve)
-                    - Detecta patrones o relaciones entre diferentes parámetros
-
-                    2. INTERPRETACIÓN CLÍNICA:
-                    - Explica qué significa cada valor anormal para la salud del paciente
-                    - Identifica posibles condiciones o riesgos asociados
-                    - Destaca cualquier hallazgo que requiera atención inmediata
-
-                    3. EXPLICACIÓN PARA EL PACIENTE:
-                    - Traduce los hallazgos a lenguaje simple y claro
-                    - Usa analogías cuando sea apropiado
-                    - Proporciona contexto sobre qué acciones podría considerar (sin sustituir consulta médica)
-
-                    FORMATO DE RESPUESTA:
-                    - Usa secciones claramente definidas
-                    - Destaca los puntos críticos
-                    - Evita alarmismo innecesario pero sé honesto sobre riesgos reales
-                    - Incluye un resumen ejecutivo al inicio
-
-                    RECORDATORIO IMPORTANTE: Esta es una interpretación informativa. Siempre recomienda consultar con su médico tratante para decisiones clínicas.
-
-                    RESULTADOS DE LABORATORIO:
-                    {texto_completo}"""
-            )
+            response = model.generate_content(prompt)
             return response.text
-        
-        except Exception as e: 
-            logger.error(f'Error generating response: {e}')
+        except Exception as e:
+            logger.error(f'Error generating response from Gemini: {e}')
+            # Devuelve un error en formato JSON
+            return '{ "error": "No se pudo generar el análisis.", "details": "' + str(e) + '" }'
 
     logger.info(f"📥 Recibiendo archivo: {file.filename}")
     
     if not file.filename.endswith('.pdf'):
-        raise HTTPException(status_code=400, detail="File must be PDF")
+        raise HTTPException(status_code=400, detail="El archivo debe ser un PDF.")
     
-    # Leer el PDF
     pdf_bytes = await file.read()
-    logger.info(f"✅ PDF leído: {len(pdf_bytes)} bytes")
-    
-    # Convertir PDF a texto
+    logger.info(f"✅ PDF leído: {len(pdf_bytes)} bytes")    
+
     texto_completo = ""
+    num_paginas = 0
     try:
-        # Abrir el PDF desde bytes
         pdf_document = fitz.open(stream=pdf_bytes, filetype="pdf")
-        
-        num_paginas = pdf_document.page_count  # Guardar antes de cerrar
+        num_paginas = pdf_document.page_count
         logger.info(f"📄 Total de páginas: {num_paginas}")
         
-        # Extraer texto de cada página
         for page_num in range(num_paginas):
-            page = pdf_document[page_num]
-            texto_pagina = page.get_text()
-            texto_completo += f"\n--- Página {page_num + 1} ---\n"
-            texto_completo += texto_pagina
+            page = pdf_document.load_page(page_num)
+            texto_completo += page.get_text()
         
-        pdf_document.close()  # Cerrar después de extraer todo
-        
+        pdf_document.close()
         logger.info(f"✅ Texto extraído: {len(texto_completo)} caracteres")
-        
-        # Guardar el texto en un archivo .txt
-        nombre_txt = file.filename.replace('.pdf', '.txt')
-        ruta_txt = Path("outputs") / nombre_txt
-        
-        # Crear carpeta outputs si no existe
-        ruta_txt.parent.mkdir(exist_ok=True)
-        
-        # Guardar el archivo
-        with open(ruta_txt, 'w', encoding='utf-8') as f:
-            f.write(texto_completo)
-        
-        logger.info(f"💾 Archivo guardado en: {ruta_txt}")
-        
-        # Mostrar primeros 500 caracteres en consola
-        print("\n" + "="*50)
-        print("TEXTO EXTRAÍDO (primeros 500 caracteres):")
-        print("="*50)
-        print(texto_completo[:500])
-        print("="*50 + "\n")
 
-        try:   
-            result = generate_response(texto_completo)
-            print (result)
-        except Exception as e: 
-            logger.error(f'Error generating response: {e}')
+        # IA analysis generation
+        analysis_result_str = generate_response(texto_completo)
+        logger.info(f"🤖 Respuesta de IA recibida: {analysis_result_str[:200]}...")
+        
+        try:
+            analysis_result_json = json.loads(analysis_result_str)
+        except json.JSONDecodeError:
+            # Handle JSON decoding error
+            logger.error("Error al decodificar la respuesta JSON de la IA. Enviando como texto plano.")
+            analysis_result_json = {
+                "interpretacionConceptos": "Error: La respuesta de la IA no estaba en formato JSON válido.",
+                "resultadosSimplificados": analysis_result_str,
+                "resumenEjecutivo": "No se pudo procesar la respuesta."
+            }
         
         return {
             "message": "PDF procesado correctamente",
             "filename": file.filename,
-            "txt_filename": nombre_txt,
-            "pdf_size": len(pdf_bytes),
-            "pages": num_paginas,  # Usar la variable guardada
-            "text_length": len(texto_completo),
-            "text_preview": texto_completo[:200] + "..." if len(texto_completo) > 200 else texto_completo,
-            "saved_path": str(ruta_txt),
-            "analysis_result": result
-        }    
+            "pages": num_paginas,
+            "analysis_result": analysis_result_json  # Sending structured JSON response
+        }
     except Exception as e:
         logger.error(f"❌ Error procesando PDF: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Error procesando PDF: {str(e)}")
