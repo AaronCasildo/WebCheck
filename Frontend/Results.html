@@ -1,3 +1,5 @@
+<!-- Frontend/Results.html -->
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -25,53 +27,22 @@
 
     <main>
         
-    <h1 class="results-title wave-text">
-    <span class="char" style="--char-index: 0">¡</span>
-    <span class="char" style="--char-index: 1">¡</span>
-    <span class="char" style="--char-index: 2"> </span>
-    <span class="char" style="--char-index: 3"> </span> <span class="char" style="--char-index: 4">E</span>
-    <span class="char" style="--char-index: 5">s</span>
-    <span class="char" style="--char-index: 6">p</span>
-    <span class="char" style="--char-index: 7">e</span>
-    <span class="char" style="--char-index: 8">r</span>
-    <span class="char" style="--char-index: 9">a</span>
-    <span class="char" style="--char-index: 10">m</span>
-    <span class="char" style="--char-index: 11">o</span>
-    <span class="char" style="--char-index: 12">s</span>
-    <span class="char" style="--char-index: 13"> </span> <span class="char" style="--char-index: 14"> </span> <span class="char" style="--char-index: 15">H</span>
-    <span class="char" style="--char-index: 16">a</span>
-    <span class="char" style="--char-index: 17">b</span>
-    <span class="char" style="--char-index: 18">e</span>
-    <span class="char" style="--char-index: 19">r</span>
-    <span class="char" style="--char-index: 20">t</span>
-    <span class="char" style="--char-index: 21">e</span>
-    <span class="char" style="--char-index: 22"> </span> <span class="char" style="--char-index: 23"> </span> <span class="char" style="--char-index: 24">A</span>
-    <span class="char" style="--char-index: 25">y</span>
-    <span class="char" style="--char-index: 26">u</span>
-    <span class="char" style="--char-index: 27">d</span>
-    <span class="char" style="--char-index: 28">a</span>
-    <span class="char" style="--char-index: 29">d</span>
-    <span class="char" style="--char-index: 30">o</span>
-    <span class="char" style="--char-index: 31"> </span> <span class="char" style="--char-index: 32"> </span> <span class="char" style="--char-index: 33">!</span>
-    <span class="char" style="--char-index: 34">!</span>
-</h1>
+        <h1 class="results-title" id="resultsTitle">Cargando resultados...</h1>
     
-        <div class="empty-results-container">
+        <!-- Contenedor para la Interpretación Técnica -->
+        <div class="results-container" id="interpretacionConceptos">
             <p class="placeholder-text">📄 Interpretación De Conceptos 📄</p>
-            <p class="placeholder-description">Pon aqui los resultados Casildo</p>
-            
             <div class="loading-animation"></div>
         </div>
 
-        <div class="empty-results-container">
+        <!-- Contenedor para los Resultados Simplificados -->
+        <div class="results-container" id="resultadosSimplificados">
             <p class="placeholder-text">📄 Resultados Simplificados de Laboratorio 📄</p>
-            <p class="placeholder-description">Pon aqui los resultados Casildo</p>
-            
             <div class="loading-animation"></div>
         </div>
         
         <div class="final-cta">
-            <a href="#" class="btn-primary">Descargar Resultados en PDF</a>
+            <button class="btn-primary" id="downloadBtn">Descargar Resultados</button>
         </div>
         
     </main>
@@ -81,6 +52,6 @@
         <p><strong>⚠️ Aviso Importante:</strong> La interpretación de estos resultados fue generada con el apoyo de Inteligencia Artificial (IA) y tiene fines meramente informativos. Esta herramienta NO sustituye el diagnóstico, la opinión o el tratamiento de un médico o profesional de la salud cualificado. Consulta siempre a tu médico con tus resultados originales.</p>
     </footer>
 
-    <script src="../script.js"></script>
+    <script src="results-page.js"></script>
 </body>
 </html>
