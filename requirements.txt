@@ -1,0 +1,19 @@
+# Framework web para crear APIs REST
+fastapi
+# Servidor ASGI para ejecutar FastAPI
+uvicorn
+
+# Manejo de archivos subidos (File uploads)
+python-multipart
+
+# Procesamiento de archivos PDF (fitz)
+PyMuPDF
+
+# SDK de Google Gemini AI
+google-generativeai
+
+# Carga de variables de entorno desde .env
+python-dotenv
+
+# Para instalar las dependencias de este archivo ejecuta:
+# pip install -r requirements.txt
