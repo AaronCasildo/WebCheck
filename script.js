@@ -43,7 +43,8 @@ async function handleFiles(files) {
         return;
     }
     
-    console.log(`Procesando ${pdfFiles.length} archivo(s)...`);
+    // Show loading state
+    uploadContainer.innerHTML = '<p>Procesando archivo... ⏳</p>';
     
     for (let i = 0; i < pdfFiles.length; i++) {
         const file = pdfFiles[i];
@@ -52,14 +53,12 @@ async function handleFiles(files) {
         
         try {
             console.log(`Enviando: ${file.name} (${i + 1}/${pdfFiles.length})`);
-            console.log(`Tamaño del archivo: ${file.size} bytes`);
             
             const response = await fetch('http://localhost:8000/upload-pdf', {
                 method: 'POST',
                 body: formData
             });
             
-            // Check answer status
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
@@ -67,10 +66,18 @@ async function handleFiles(files) {
             const result = await response.json();
             console.log(`✅ ${file.name} enviado exitosamente:`, result);
             
+            // Store result and redirect to results page
+            sessionStorage.setItem('analysisResult', result.analysis_result);
+            sessionStorage.setItem('fileName', file.name);
+            
+            // Redirect to results page
+            window.location.href = './pages/WebResult.html';
+            
         } catch (error) {
             console.error(`❌ Error con ${file.name}:`, error);
+            alert(`Error procesando ${file.name}: ${error.message}`);
+            // Reset upload container on error
+            location.reload();
         }
     }
-    
-    alert(`${pdfFiles.length} archivo(s) procesado(s). Revisa la consola.`);
 }
