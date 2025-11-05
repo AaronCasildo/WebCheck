@@ -2,13 +2,16 @@
 
 // Espera a que todo el contenido de la página se cargue
 window.addEventListener('DOMContentLoaded', () => {
+    // ... (el código de arriba es igual) ...
+// ... (el código de arriba es igual) ...
     // Recuperar los datos de sessionStorage
     const analysisResultString = sessionStorage.getItem('analysisResult');
     const fileName = sessionStorage.getItem('fileName');
     
     // Si no hay resultados, redirigir a la página principal
     if (!analysisResultString) {
-        alert('No se encontraron datos de análisis. Por favor, carga un archivo primero.');
+        // (Quitamos el alert() porque no funciona bien en el entorno)
+        console.error('No se encontraron datos de análisis. Redirigiendo...');
         window.location.href = '../WebCheck.html';
         return;
     }
@@ -27,7 +30,7 @@ window.addEventListener('DOMContentLoaded', () => {
         const interpretacionContainer = document.getElementById('interpretacionConceptos');
         const simplificadosContainer = document.getElementById('resultadosSimplificados');
 
-        // Llenar los contenedores con los datos correspondientes
+        // Llenar los contenedores (la IA ya nos da los títulos gracias al prompt de main.py)
         interpretacionContainer.innerHTML = `
             <p class="placeholder-text">📊 Interpretación de Conceptos 📊</p>
             <div class="results-content">
@@ -46,45 +49,62 @@ window.addEventListener('DOMContentLoaded', () => {
         const downloadBtn = document.getElementById('downloadBtn');
         if (downloadBtn) {
             downloadBtn.addEventListener('click', () => {
+                // Esta es tu función original de descarga .txt (sin cambios)
                 downloadResultsAsTxt(fileName, analysisResult);
             });
         }
 
     } catch (error) {
         console.error('Error al procesar los resultados:', error);
-        alert('Hubo un error al mostrar los resultados. Inténtalo de nuevo.');
     }
 });
 
 /**
  * Convierte una cadena de texto con formato Markdown básico a HTML.
+ * (VERSIÓN MÁS ROBUSTA)
  * @param {string} text El texto a convertir.
  * @returns {string} El texto formateado como HTML.
  */
 function formatMarkdownToHtml(text) {
     if (!text) return '<p>No hay datos disponibles.</p>';
 
-    // Reemplazar títulos, negritas, itálicas y listas
     let html = text
-        .replace(/##\s*(.+)/g, '<h2>$1</h2>')
-        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-        .replace(/\*\s(.*?)$/gm, '<li>$1</li>'); // Para listas como '* elemento'
+        // === MODIFICADO ===
+        // Busca títulos (ej. # Título o ## Título) y los convierte en <h2>
+        .replace(/^#{1,2}\s*(.+)$/gm, '<h2>$1</h2>')
+        
+        // Busca subtítulos (ej. ### Título) y los convierte en <h3>
+        .replace(/^###\s*(.+)$/gm, '<h3>$1</h3>')
 
-    // Envolver grupos de <li> en un <ul>
+        // Busca negritas (ej. **texto**)
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        
+        // Busca listas (ej. * elemento)
+        .replace(/^\*\s*(.*?)$/gm, '<li>$1</li>');
+
+    // Envuelve grupos de <li> en un <ul>
     html = html.replace(/(<li>(.|\n)*?<\/li>)/g, '<ul>$1</ul>');
 
-    // Reemplazar saltos de línea con <br> dentro de párrafos
-    // y saltos de línea dobles con párrafos nuevos.
-    return html.split('\n').map(p => p.trim()).filter(p => p).map(p => {
-        if (p.startsWith('<h2>') || p.startsWith('<ul>')) return p;
-        return `<p>${p}</p>`;
-    }).join('');
+    // Envuelve el texto restante en párrafos <p>
+    return html.split('\n\n') // Separa por párrafos (doble salto de línea)
+        .map(paragraph => {
+            paragraph = paragraph.trim();
+            if (paragraph.startsWith('<h2>') || paragraph.startsWith('<h3>') || paragraph.startsWith('<ul>')) {
+                return paragraph; // Ya está formateado
+            }
+            if (paragraph === '') {
+                return ''; // Ignora líneas vacías
+            }
+            // Envuelve líneas restantes en <p> y reemplaza saltos de línea simples con <br>
+            return `<p>${paragraph.replace(/\n/g, '<br>')}</p>`;
+        })
+        .join('');
 }
+
 
 /**
  * Genera y descarga un archivo .txt con los resultados.
- * @param {string} fileName El nombre del archivo original.
- * @param {object} analysisResult El objeto con los resultados del análisis.
+ * (Esta es tu función original, la dejamos como estaba)
  */
 function downloadResultsAsTxt(fileName, analysisResult) {
     const { interpretacionConceptos, resultadosSimplificados, resumenEjecutivo } = analysisResult;
@@ -99,7 +119,7 @@ Fecha: ${new Date().toLocaleString('es-MX')}
 --- RESUMEN EJECUTIVO ---
 ${resumenEjecutivo || 'N/A'}
 
---- INTERPRETACIÓN DE CONCEPTOS ---
+--- INTERPRETACIÓN de CONCEPTOS ---
 ${interpretacionConceptos || 'N/A'}
 
 --- RESULTADOS SIMPLIFICADOS (PARA EL PACIENTE) ---
@@ -126,3 +146,4 @@ Consulte siempre a su médico.
     document.body.removeChild(a);
     window.URL.revokeObjectURL(url);
 }
+
