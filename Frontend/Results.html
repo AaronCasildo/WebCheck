@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="styles.css"> 
     
     <link rel="icon" type="image/x-icon" href="../media/HealthCheck.ico">
+    
+    <!-- Marked.js - Markdown parser -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body class="results-page-body">
     <header>
@@ -29,20 +32,35 @@
         
         <h1 class="results-title" id="resultsTitle">Cargando resultados...</h1>
     
+        <!-- Resumen Ejecutivo Card -->
+        <div class="summary-card" id="resumenEjecutivo">
+            <div class="summary-icon">📋</div>
+            <div class="summary-content">
+                <h2>Resumen General</h2>
+                <p id="resumenTexto">Cargando resumen...</p>
+            </div>
+        </div>
+
         <!-- Contenedor para la Interpretación Técnica -->
-        <div class="results-container" id="interpretacionConceptos">
-            <p class="placeholder-text">📄 Interpretación De Conceptos 📄</p>
+        <div class="results-container results-technical" id="interpretacionConceptos">
+            <div class="results-header results-header-technical">
+                <span class="results-header-icon">🔬</span>
+                <span>Interpretación de Conceptos</span>
+            </div>
             <div class="loading-animation"></div>
         </div>
 
         <!-- Contenedor para los Resultados Simplificados -->
-        <div class="results-container" id="resultadosSimplificados">
-            <p class="placeholder-text">📄 Resultados Simplificados de Laboratorio 📄</p>
+        <div class="results-container results-simplified" id="resultadosSimplificados">
+            <div class="results-header results-header-simplified">
+                <span class="results-header-icon">💚</span>
+                <span>Resultados Simplificados</span>
+            </div>
             <div class="loading-animation"></div>
         </div>
         
         <div class="final-cta">
-            <button class="btn-primary" id="downloadBtn">Descargar Resultados</button>
+            <button class="btn-primary" id="downloadBtn">📥 Descargar Resultados</button>
         </div>
         
     </main>

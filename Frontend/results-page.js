@@ -25,19 +25,32 @@ window.addEventListener('DOMContentLoaded', () => {
         }
 
         // Obtener los contenedores por su ID
+        const resumenContainer = document.getElementById('resumenEjecutivo');
+        const resumenTexto = document.getElementById('resumenTexto');
         const interpretacionContainer = document.getElementById('interpretacionConceptos');
         const simplificadosContainer = document.getElementById('resultadosSimplificados');
 
+        // Llenar el resumen ejecutivo
+        if (resumenTexto && analysisResult.resumenEjecutivo) {
+            resumenTexto.innerHTML = formatMarkdownToHtml(analysisResult.resumenEjecutivo);
+        } else if (resumenContainer) {
+            resumenContainer.style.display = 'none';
+        }
+
         // Llenar los contenedores con los datos correspondientes
         interpretacionContainer.innerHTML = `
-            <p class="placeholder-text">📊 Interpretación de Conceptos 📊</p>
+            <div class="results-header results-header-technical">
+                <span>Interpretación de Conceptos</span>
+            </div>
             <div class="results-content">
                 ${formatMarkdownToHtml(analysisResult.interpretacionConceptos || "No se proporcionó interpretación.")}
             </div>
         `;
 
         simplificadosContainer.innerHTML = `
-            <p class="placeholder-text">📄 Resultados Simplificados 📄</p>
+            <div class="results-header results-header-simplified">
+                <span>Resultados Simplificados</span>
+            </div>
             <div class="results-content">
                 ${formatMarkdownToHtml(analysisResult.resultadosSimplificados || "No se proporcionaron resultados simplificados.")}
             </div>
@@ -58,45 +71,38 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 /**
- * Convierte una cadena de texto con formato Markdown básico a HTML.
- * (VERSIÓN MÁS ROBUSTA)
+ * Convierte una cadena de texto con formato Markdown a HTML usando marked.js
  * @param {string} text El texto a convertir.
  * @returns {string} El texto formateado como HTML.
  */
 function formatMarkdownToHtml(text) {
     if (!text) return '<p>No hay datos disponibles.</p>';
 
-    let html = text
-        // === MODIFICADO ===
-        // Busca títulos (ej. # Título o ## Título) y los convierte en <h2>
-        .replace(/^#{1,2}\s*(.+)$/gm, '<h2>$1</h2>')
-        
-        // Busca subtítulos (ej. ### Título) y los convierte en <h3>
-        .replace(/^###\s*(.+)$/gm, '<h3>$1</h3>')
+    // Normalize the text - handle escaped newlines
+    let cleanedText = text
+        .replace(/\\n/g, '\n')           // Convert literal \n to actual newlines
+        .replace(/\\"/g, '"')            // Unescape quotes
+        .replace(/\r\n/g, '\n')          // Normalize Windows line endings
+        .replace(/\r/g, '\n');           // Normalize old Mac line endings
 
-        // Busca negritas (ej. **texto**)
-        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-        
-        // Busca listas (ej. * elemento)
-        .replace(/^\*\s*(.*?)$/gm, '<li>$1</li>');
+    // Safety check: if it looks like raw JSON, clean it up first
+    if (cleanedText.trim().startsWith('{') || cleanedText.includes('"interpretacionConceptos"')) {
+        try {
+            const parsed = JSON.parse(cleanedText);
+            cleanedText = parsed.resultadosSimplificados || parsed.interpretacionConceptos || cleanedText;
+        } catch {
+            cleanedText = cleanedText
+                .replace(/^\s*\{\s*/, '')
+                .replace(/\s*\}\s*$/, '')
+                .replace(/"interpretacionConceptos"\s*:\s*"/g, '')
+                .replace(/"resultadosSimplificados"\s*:\s*"/g, '')
+                .replace(/"resumenEjecutivo"\s*:\s*"/g, '')
+                .replace(/",?\s*$/g, '');
+        }
+    }
 
-    // Envuelve grupos de <li> en un <ul>
-    html = html.replace(/(<li>(.|\n)*?<\/li>)/g, '<ul>$1</ul>');
-
-    // Envuelve el texto restante en párrafos <p>
-    return html.split('\n\n') // Separa por párrafos (doble salto de línea)
-        .map(paragraph => {
-            paragraph = paragraph.trim();
-            if (paragraph.startsWith('<h2>') || paragraph.startsWith('<h3>') || paragraph.startsWith('<ul>')) {
-                return paragraph; // Ya está formateado
-            }
-            if (paragraph === '') {
-                return ''; // Ignora líneas vacías
-            }
-            // Envuelve líneas restantes en <p> y reemplaza saltos de línea simples con <br>
-            return `<p>${paragraph.replace(/\n/g, '<br>')}</p>`;
-        })
-        .join('');
+    // Use marked.js to parse markdown
+    return marked.parse(cleanedText);
 }
 
 
