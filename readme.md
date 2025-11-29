@@ -1,7 +1,6 @@
 # HealthCheck - Intelligent Laboratory Results Interpreter
 
 ![Project Status](https://img.shields.io/badge/Status-In%20Development-yellow?style=for-the-badge)
-![Version](https://img.shields.io/badge/Version-0.1.0--alpha-orange?style=for-the-badge)
 
 ---
 
