@@ -66,7 +66,28 @@ window.addEventListener('DOMContentLoaded', () => {
 function formatMarkdownToHtml(text) {
     if (!text) return '<p>No hay datos disponibles.</p>';
 
-    let html = text
+    // Safety check: if it looks like raw JSON, clean it up first
+    let cleanedText = text;
+    if (text.trim().startsWith('{') || text.includes('"interpretacionConceptos"')) {
+        try {
+            // Try to parse and extract if it's JSON
+            const parsed = JSON.parse(text);
+            cleanedText = parsed.resultadosSimplificados || parsed.interpretacionConceptos || text;
+        } catch {
+            // Clean up JSON-like artifacts
+            cleanedText = text
+                .replace(/^\s*\{\s*/, '')
+                .replace(/\s*\}\s*$/, '')
+                .replace(/"interpretacionConceptos"\s*:\s*"/g, '')
+                .replace(/"resultadosSimplificados"\s*:\s*"/g, '')
+                .replace(/"resumenEjecutivo"\s*:\s*"/g, '')
+                .replace(/",?\s*$/g, '')
+                .replace(/\\n/g, '\n')
+                .replace(/\\"/g, '"');
+        }
+    }
+
+    let html = cleanedText
         // === MODIFICADO ===
         // Busca títulos (ej. # Título o ## Título) y los convierte en <h2>
         .replace(/^#{1,2}\s*(.+)$/gm, '<h2>$1</h2>')
@@ -77,11 +98,14 @@ function formatMarkdownToHtml(text) {
         // Busca negritas (ej. **texto**)
         .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
         
-        // Busca listas (ej. * elemento)
-        .replace(/^\*\s*(.*?)$/gm, '<li>$1</li>');
+        // Busca listas con asterisco (ej. * elemento)
+        .replace(/^\*\s+(.*?)$/gm, '<li>$1</li>')
+        
+        // Busca listas con guion (ej. - elemento)
+        .replace(/^-\s+(.*?)$/gm, '<li>$1</li>');
 
     // Envuelve grupos de <li> en un <ul>
-    html = html.replace(/(<li>(.|\n)*?<\/li>)/g, '<ul>$1</ul>');
+    html = html.replace(/(<li>[\s\S]*?<\/li>)+/g, '<ul>$&</ul>');
 
     // Envuelve el texto restante en párrafos <p>
     return html.split('\n\n') // Separa por párrafos (doble salto de línea)
