@@ -2,8 +2,6 @@
 
 // Espera a que todo el contenido de la página se cargue
 window.addEventListener('DOMContentLoaded', () => {
-    // ... (el código de arriba es igual) ...
-// ... (el código de arriba es igual) ...
     // Recuperar los datos de sessionStorage
     const analysisResultString = sessionStorage.getItem('analysisResult');
     const fileName = sessionStorage.getItem('fileName');
@@ -30,7 +28,7 @@ window.addEventListener('DOMContentLoaded', () => {
         const interpretacionContainer = document.getElementById('interpretacionConceptos');
         const simplificadosContainer = document.getElementById('resultadosSimplificados');
 
-        // Llenar los contenedores (la IA ya nos da los títulos gracias al prompt de main.py)
+        // Llenar los contenedores con los datos correspondientes
         interpretacionContainer.innerHTML = `
             <p class="placeholder-text">📊 Interpretación de Conceptos 📊</p>
             <div class="results-content">
@@ -49,13 +47,13 @@ window.addEventListener('DOMContentLoaded', () => {
         const downloadBtn = document.getElementById('downloadBtn');
         if (downloadBtn) {
             downloadBtn.addEventListener('click', () => {
-                // Esta es tu función original de descarga .txt (sin cambios)
                 downloadResultsAsTxt(fileName, analysisResult);
             });
         }
 
     } catch (error) {
         console.error('Error al procesar los resultados:', error);
+        alert('Hubo un error al mostrar los resultados. Inténtalo de nuevo.');
     }
 });
 
@@ -119,7 +117,7 @@ Fecha: ${new Date().toLocaleString('es-MX')}
 --- RESUMEN EJECUTIVO ---
 ${resumenEjecutivo || 'N/A'}
 
---- INTERPRETACIÓN de CONCEPTOS ---
+--- INTERPRETACIÓN DE CONCEPTOS ---
 ${interpretacionConceptos || 'N/A'}
 
 --- RESULTADOS SIMPLIFICADOS (PARA EL PACIENTE) ---
@@ -146,4 +144,3 @@ Consulte siempre a su médico.
     document.body.removeChild(a);
     window.URL.revokeObjectURL(url);
 }
-
