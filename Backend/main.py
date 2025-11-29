@@ -25,7 +25,16 @@ if not api_key:
 # Initialze FastAPI and GenAI
 app = FastAPI()
 genai.configure(api_key=api_key)
-model = genai.GenerativeModel('gemini-2.5-flash') 
+# +++ INICIO DE MODIFICACIÓN 1: Forzar respuesta JSON +++
+# Configurar el modelo para que SIEMPRE DEVUELVA JSON
+generation_config = genai.types.GenerationConfig(
+    response_mime_type="application/json"
+)
+model = genai.GenerativeModel(
+    'gemini-2.5-flash',
+    generation_config=generation_config  # Aplicamos la configuración aquí
+)
+# +++ FIN DE MODIFICACIÓN 1 +++
 
 app.add_middleware(
     CORSMiddleware,
