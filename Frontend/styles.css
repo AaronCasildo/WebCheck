@@ -501,17 +501,97 @@ body.results-page-body {
     background-color: #f0f8ff; /* AliceBlue (azul cielo bajo) */
 }
 
+/* ======= SUMMARY CARD (Resumen Ejecutivo) ======= */
+.summary-card {
+    background: linear-gradient(135deg, #007BFF 0%, #0056b3 100%);
+    border-radius: 16px;
+    padding: 25px 30px;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    box-shadow: 0 8px 25px rgba(0, 123, 255, 0.3);
+    color: white;
+    text-align: left;
+}
+
+.summary-icon {
+    font-size: 2.5rem;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    padding: 15px;
+    line-height: 1;
+}
+
+.summary-content {
+    flex: 1;
+}
+
+.summary-content h2 {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+    font-weight: 700;
+    color: white;
+}
+
+.summary-content p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.95);
+    margin: 0;
+}
+
+.summary-content strong {
+    color: white;
+    font-weight: 700;
+}
+
 /* 2. Estilos para los contenedores (las tarjetas blancas) */
 .results-container {
     background-color: #ffffff;
-    border: 1px solid #e0e0e0;
-    border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    border-radius: 16px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
     margin-bottom: 30px;
-    overflow: hidden; /* Asegura que los bordes redondeados funcionen */
+    overflow: hidden;
+    border: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* 3. Estilos para el título de la tarjeta (ej. "Interpretación de Conceptos") */
+.results-container:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+/* ======= COLOR-CODED HEADERS ======= */
+.results-header {
+    font-size: 1.2rem;
+    font-weight: 600;
+    padding: 18px 25px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.results-header-icon {
+    font-size: 1.5rem;
+}
+
+/* Technical section - Blue theme */
+.results-header-technical {
+    background: linear-gradient(135deg, #e8f4fd 0%, #d0e8f9 100%);
+    color: #0056b3;
+    border-left: 4px solid #007BFF;
+}
+
+/* Simplified section - Green theme */
+.results-header-simplified {
+    background: linear-gradient(135deg, #e8f8e8 0%, #d4edda 100%);
+    color: #155724;
+    border-left: 4px solid #28A745;
+}
+
+/* 3. Estilos para el título de la tarjeta (legacy support) */
 .results-container .placeholder-text {
     font-size: 1.3rem;
     font-weight: 600;
@@ -530,61 +610,95 @@ body.results-page-body {
     margin-left: auto;
     margin-right: auto;
     /* Añade espacio interno */
-    padding: 10px 25px 30px 25px;
+    padding: 25px 30px 35px 30px;
 }
 
 /* 5. Estilos para la tipografía (letra grande) */
 .results-content p,
 .results-content li {
-    font-size: 1.1rem;  /* Letra más grande */
-    line-height: 1.7;   /* Más espacio entre líneas */
+    font-size: 1.05rem;  /* Letra más grande */
+    line-height: 1.8;   /* Más espacio entre líneas */
     color: #444;       /* Gris oscuro, más suave que el negro */
-    margin-bottom: 1.2em; /* Espacio entre párrafos/listas */
+    margin-bottom: 1em; /* Espacio entre párrafos/listas */
 }
 
 /* 6. Estilos para Títulos (los que crea la IA) */
 .results-content h2 {
-    font-size: 1.7rem;
+    font-size: 1.5rem;
     color: #0056b3;    /* Azul de tu marca */
-    border-bottom: 2px solid #f0f0f0; /* La barrita separadora */
-    padding-bottom: 10px;
+    border-bottom: 2px solid #e8f4fd;
+    padding-bottom: 12px;
     margin-top: 30px;
     margin-bottom: 20px;
 }
 
+.results-content h2::before {
+    content: '📌 ';
+    font-size: 1.2rem;
+}
+
 /* 7. Estilos para Subtítulos */
 .results-content h3 {
-    font-size: 1.3rem;
+    font-size: 1.25rem;
     color: #333;
     margin-top: 25px;
     margin-bottom: 15px;
+    padding-left: 10px;
+    border-left: 3px solid #007BFF;
 }
 
 /* 8. Estilos para Listas */
 .results-content ul {
-    list-style-type: none; /* Quita los puntos negros feos */
-    padding-left: 10px;
+    list-style-type: none;
+    padding-left: 5px;
+    margin: 15px 0;
 }
 
 .results-content li {
     position: relative;
-    padding-left: 25px; /* Espacio para el punto personalizado */
-    margin-bottom: 12px;
+    padding: 12px 15px 12px 45px;
+    margin-bottom: 8px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 3px solid #007BFF;
+    transition: background 0.2s ease;
 }
 
-/* Crea el "bullet point" azul personalizado */
-.results-content li::before {
-    content: '•';
-    position: absolute;
-    left: 0;
-    top: 0px;
-    color: #0056b3; /* Azul */
-    font-size: 1.5rem;
-    line-height: 1.1rem; /* Alineación vertical */
+.results-content li:hover {
+    background: #e8f4fd;
 }
+
+
 
 /* 9. Estilos para Negritas */
 .results-content strong {
     color: #000;
     font-weight: 700;
+    background: linear-gradient(180deg, transparent 60%, rgba(0, 123, 255, 0.15) 60%);
+    padding: 0 2px;
+}
+
+/* ======= RESPONSIVE ADJUSTMENTS ======= */
+@media (max-width: 768px) {
+    .summary-card {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px;
+    }
+    
+    .summary-icon {
+        margin: 0 auto;
+    }
+    
+    .results-content {
+        padding: 20px 15px;
+    }
+    
+    .results-content li {
+        padding-left: 35px;
+    }
+    
+    .results-content li::before {
+        left: 10px;
+    }
 }
