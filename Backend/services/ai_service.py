@@ -46,6 +46,7 @@ def analyze_lab_results(texto_completo: str) -> str:
             -   Usa formato Markdown.
 
         3.  **resumenEjecutivo**:
+            -   Explicación breve sobre que es lo que hace el estudio.
             -   Un párrafo muy breve y conciso con los hallazgos más importantes.
 
         Asegúrate de que la salida sea un único objeto JSON válido y nada más. No incluyas "```json" o "```" en la respuesta.
