@@ -190,6 +190,175 @@ h1 {
     letter-spacing: 0.5px;
 }
 
+/* ======= PROGRESS BAR STYLES ======= */
+.progress-container {
+    padding: 20px;
+    text-align: center;
+}
+
+.progress-icon {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    animation: bounce 1s ease infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.progress-container.error .progress-icon {
+    animation: shake 0.5s ease;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+.progress-title {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.progress-filename {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.95rem;
+    margin-bottom: 25px;
+    word-break: break-all;
+}
+
+.progress-bar-wrapper {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50px;
+    height: 12px;
+    overflow: hidden;
+    margin: 0 auto 10px;
+    max-width: 400px;
+}
+
+.progress-bar {
+    background: linear-gradient(90deg, #4CAF50, #8BC34A);
+    height: 100%;
+    width: 0%;
+    border-radius: 50px;
+    transition: width 0.3s ease;
+    box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+}
+
+.progress-percentage {
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 25px;
+}
+
+.progress-steps {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.progress-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 15px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    min-width: 90px;
+    opacity: 0.5;
+    transition: all 0.3s ease;
+}
+
+.progress-step.active {
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.25);
+    transform: scale(1.05);
+}
+
+.progress-step.completed {
+    opacity: 1;
+    background: rgba(76, 175, 80, 0.3);
+}
+
+.progress-step.completed .step-number::after {
+    content: '✓';
+    position: absolute;
+    right: -5px;
+    bottom: -2px;
+    font-size: 0.6rem;
+    background: #4CAF50;
+    color: white;
+    border-radius: 50%;
+    width: 14px;
+    height: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.step-number {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: white;
+    background: rgba(255, 255, 255, 0.2);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.progress-step.active .step-number {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+.progress-step.completed .step-number {
+    background: #4CAF50;
+}
+
+.progress-step span {
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.progress-container.error .progress-title {
+    color: #ffcccc;
+}
+
+.progress-container.error .progress-filename {
+    color: #ffaaaa;
+}
+
+.progress-container .btn-primary {
+    margin-top: 20px;
+}
+
+/* Responsive progress steps */
+@media (max-width: 500px) {
+    .progress-steps {
+        gap: 10px;
+    }
+    
+    .progress-step {
+        min-width: 70px;
+        padding: 10px 12px;
+    }
+    
+    .progress-step span {
+        font-size: 0.65rem;
+    }
+}
+
 /* ======= SECCIÓN DE CARACTERÍSTICAS ======= */
 .features {
     display: flex;
@@ -258,10 +427,6 @@ input[type="file"] {
     .features {
         flex-direction: column;
         align-items: center;
-    }
-
-    .feature-item {
-        width: 90%;
     }
 
     .feature-item {
@@ -384,34 +549,6 @@ input[type="file"] {
     }
 }
 
-/* ============================================== */
-/* ESTILOS PARA EL CONTENEDOR VACÍO DE RESULTADOS */
-/* ============================================== */
-
-.empty-results-container {
-    background: #ffffff; /* Fondo blanco para contraste */
-    border: 2px dashed #ced4da; /* Borde punteado sutil */
-    border-radius: 15px;
-    padding: 80px 40px;
-    margin-bottom: 60px;
-    text-align: center;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-}
-
-.placeholder-text {
-    font-size: 24px;
-    font-weight: 600;
-    color: #007BFF; /* Azul principal para el título del placeholder */
-    margin-bottom: 10px;
-}
-
-.placeholder-description {
-    font-size: 16px;
-    color: #6c757d; /* Gris sutil */
-    max-width: 600px;
-    margin: 0 auto 30px;
-}
-
 /* Estilo para simular una carga (opcional, mejora la sensación) */
 .loading-animation {
     width: 50px;
@@ -455,41 +592,6 @@ input[type="file"] {
     padding: 30px;
     border-top: 1px solid #eee; /* Opcional: una línea de separación sutil */
     text-align: center;
-}
-
-/* ============================================== */
-/* ESTILOS PARA EL EFECTO DE TEXTO EN FORMA DE OLA */
-/* ============================================== */
-
-.wave-text {
-    /* Es importante que los spans se muestren en línea pero permitan transformación */
-    display: flex;
-    justify-content: center; /* Centra el texto */
-    align-items: flex-end; /* Asegura que la línea de base sea uniforme */
-    line-height: 2; /* Para controlar el espacio vertical */
-    overflow: hidden; /* Oculta posibles desbordes durante el movimiento */
-}
-
-.wave-text .char {
-    display: inline-block;
-    /* La duración total de la animación es 2 segundos */
-    animation: wave-bounce 2s infinite ease-in-out;
-    /* Calcula el retraso de la animación usando el índice de la letra.
-       0.05s por letra crea el efecto de ola lenta. */
-    animation-delay: calc(var(--char-index) * 0.05s); 
-    
-    /* Pequeño margen para separar las letras, si es necesario */
-    margin: 0 1px;
-}
-
-/* Define la animación de "rebote" (subir y bajar) */
-@keyframes wave-bounce {
-    0%, 100% {
-        transform: translateY(0); /* Posición inicial/final (abajo) */
-    }
-    50% {
-        transform: translateY(-15px); /* Posición media (arriba) - Ajusta este valor si quieres que se mueva más */
-    }
 }
 
 /* ========================================= */
@@ -573,10 +675,6 @@ body.results-page-body {
     border-bottom: 1px solid #e0e0e0;
 }
 
-.results-header-icon {
-    font-size: 1.5rem;
-}
-
 /* Technical section - Blue theme */
 .results-header-technical {
     background: linear-gradient(135deg, #e8f4fd 0%, #d0e8f9 100%);
@@ -589,17 +687,6 @@ body.results-page-body {
     background: linear-gradient(135deg, #e8f8e8 0%, #d4edda 100%);
     color: #155724;
     border-left: 4px solid #28A745;
-}
-
-/* 3. Estilos para el título de la tarjeta (legacy support) */
-.results-container .placeholder-text {
-    font-size: 1.3rem;
-    font-weight: 600;
-    color: #333;
-    background-color: #f9f9f9;
-    padding: 20px 25px;
-    border-bottom: 1px solid #e0e0e0;
-    margin: 0;
 }
 
 /* 4. Contenido del texto (AQUÍ ESTÁ LA MAGIA) */
