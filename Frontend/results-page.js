@@ -60,7 +60,7 @@ window.addEventListener('DOMContentLoaded', () => {
         const downloadBtn = document.getElementById('downloadBtn');
         if (downloadBtn) {
             downloadBtn.addEventListener('click', () => {
-                downloadResultsAsTxt(fileName, analysisResult);
+                downloadResultsAsPdf(fileName, analysisResult);
             });
         }
 
@@ -103,50 +103,4 @@ function formatMarkdownToHtml(text) {
 
     // Use marked.js to parse markdown
     return marked.parse(cleanedText);
-}
-
-
-/**
- * Genera y descarga un archivo .txt con los resultados.
- * (Esta es tu función original, la dejamos como estaba)
- */
-function downloadResultsAsTxt(fileName, analysisResult) {
-    const { interpretacionConceptos, resultadosSimplificados, resumenEjecutivo } = analysisResult;
-
-    const content = `
-Resultados del Análisis de HealthCheck
-=========================================
-
-Archivo Analizado: ${fileName}
-Fecha: ${new Date().toLocaleString('es-MX')}
-
---- RESUMEN EJECUTIVO ---
-${resumenEjecutivo || 'N/A'}
-
---- INTERPRETACIÓN DE CONCEPTOS ---
-${interpretacionConceptos || 'N/A'}
-
---- RESULTADOS SIMPLIFICADOS (PARA EL PACIENTE) ---
-${resultadosSimplificados || 'N/A'}
-
-
-=========================================
-AVISO IMPORTANTE:
-Esta interpretación fue generada con IA y es solo para fines informativos.
-NO reemplaza el diagnóstico de un médico profesional.
-Consulte siempre a su médico.
-    `;
-
-    // Limpiar el texto para que sea un archivo de texto plano
-    const plainTextContent = content.replace(/<[^>]*>/g, ''); // Elimina etiquetas HTML
-    
-    const blob = new Blob([plainTextContent], { type: 'text/plain;charset=utf-8' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `Analisis_${fileName.replace('.pdf', '')}.txt`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    window.URL.revokeObjectURL(url);
 }

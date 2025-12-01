@@ -13,6 +13,9 @@
     
     <!-- Marked.js - Markdown parser -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
+    <!-- jsPDF - PDF Generator -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body class="results-page-body">
     <header>
@@ -60,7 +63,7 @@
         </div>
         
         <div class="final-cta">
-            <button class="btn-primary" id="downloadBtn">📥 Descargar Resultados</button>
+            <button class="btn-primary" id="downloadBtn">📥 Descargar Resultados (PDF)</button>
         </div>
         
     </main>
@@ -70,6 +73,7 @@
         <p><strong>⚠️ Aviso Importante:</strong> La interpretación de estos resultados fue generada con el apoyo de Inteligencia Artificial (IA) y tiene fines meramente informativos. Esta herramienta NO sustituye el diagnóstico, la opinión o el tratamiento de un médico o profesional de la salud cualificado. Consulta siempre a tu médico con tus resultados originales.</p>
     </footer>
 
+    <script src="pdf-generator.js"></script>
     <script src="results-page.js"></script>
 </body>
 </html>
