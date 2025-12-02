@@ -2,6 +2,71 @@
 /* CSS ACTUALIZADO CON PALETA CLÁSICA Y DE CONFIANZA */
 /* ============================================== */
 
+/* ======= CSS VARIABLES (THEMING) ======= */
+:root {
+    /* Light Mode Colors */
+    --bg-primary: #F8F9FA;
+    --bg-secondary: #ffffff;
+    --bg-tertiary: #f0f8ff;
+    --text-primary: #212529;
+    --text-secondary: #6c757d;
+    --text-muted: #444;
+    --border-color: #e0e0e0;
+    --shadow-color: rgba(0, 0, 0, 0.05);
+    --shadow-hover: rgba(0, 0, 0, 0.1);
+    
+    /* Brand Colors (same in both modes) */
+    --primary-blue: #007BFF;
+    --primary-blue-dark: #0056b3;
+    --primary-blue-light: #e8f4fd;
+    --success-green: #28A745;
+    --success-green-light: #d4edda;
+    --warning-yellow: #FFC107;
+    --warning-bg: #FFF3CD;
+    --warning-text: #856404;
+    
+    /* Component specific */
+    --header-bg: #ffffff;
+    --card-bg: #ffffff;
+    --input-bg: #ffffff;
+    --input-border: #ced4da;
+    --feature-text: #333;
+    --results-li-bg: #f8f9fa;
+    --results-li-hover: #e8f4fd;
+    --code-bg: #f5f5f5;
+}
+
+/* Dark Mode Colors */
+[data-theme="dark"] {
+    --bg-primary: #1a1a2e;
+    --bg-secondary: #16213e;
+    --bg-tertiary: #0f0f1a;
+    --text-primary: #f5f5f5;
+    --text-secondary: #c0c0c0;
+    --text-muted: #e0e0e0;
+    --border-color: #2a2a4a;
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    --shadow-hover: rgba(0, 0, 0, 0.5);
+    
+    /* Brand colors adjusted for dark mode */
+    --primary-blue: #4da3ff;
+    --primary-blue-light: #1a3a5c;
+    --success-green: #5cb85c;
+    --success-green-light: #1a3a2a;
+    --warning-bg: #3d3520;
+    --warning-text: #ffd966;
+    
+    /* Component specific */
+    --header-bg: #16213e;
+    --card-bg: #1f2940;
+    --input-bg: #2a3650;
+    --input-border: #3a4a6a;
+    --feature-text: #e8e8e8;
+    --results-li-bg: #252d40;
+    --results-li-hover: #2a3a5c;
+    --code-bg: #2a3650;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -10,8 +75,9 @@
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    color: #212529; /* TEXTO: Azul Oscuro/Casi Negro */
-    background: #F8F9FA; /* FONDO: Gris Claro */
+    color: var(--text-primary);
+    background: var(--bg-primary);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* ======= ENCABEZADO ======= */
@@ -20,10 +86,11 @@ header {
     align-items: center;
     justify-content: space-between;
     padding: 16px 40px;
-    border-bottom: 1px solid #e0e0e0;
-    background: white;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border-bottom: 1px solid var(--border-color);
+    background: var(--header-bg);
+    box-shadow: 0 2px 10px var(--shadow-color);
     border-radius: 0 0 16px 16px;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .logo-section {
@@ -39,29 +106,64 @@ header {
     font-size: 24px;
     font-weight: 700;
     text-decoration: none;
-    color: #212529; /* Color de texto base */
+    color: var(--text-primary);
     transition: transform 0.2s ease, color 0.3s ease;
 }
 
 .logo:hover {
     transform: scale(1.05);
-    color: #007BFF; /* Azul Médico Principal al hacer hover */
+    color: var(--primary-blue);
 }
 
 .logo-icon {
     width: 40px;
     height: 40px;
-    /* Aplicando el color principal a la sección del logo */
-    background: #007BFF; 
+    background: var(--primary-blue); 
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+}
+
+/* ======= DARK MODE TOGGLE ======= */
+.theme-toggle {
+    background: var(--bg-primary);
+    border: 2px solid var(--border-color);
+    border-radius: 50px;
+    padding: 8px 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+}
+
+.theme-toggle:hover {
+    border-color: var(--primary-blue);
+    background: var(--primary-blue-light);
+}
+
+.theme-toggle .icon {
+    font-size: 18px;
+    transition: transform 0.3s ease;
+}
+
+.theme-toggle:hover .icon {
+    transform: rotate(20deg);
+}
+
+.right-menu {
+    display: flex;
+    align-items: center;
+    gap: 15px;
 }
 
 /* ======= BOTONES (CTA) - SECCIÓN MODIFICADA ======= */
 
 .btn-primary, /* Para botones */
 a.btn-primary { /* PARA ENLACES (<a>) con estilo de botón */
-    background: #007BFF; /* Azul Médico Principal */
+    background: var(--primary-blue);
     color: white;
     border: none;
     padding: 10px 24px;
@@ -69,34 +171,34 @@ a.btn-primary { /* PARA ENLACES (<a>) con estilo de botón */
     font-size: 15px;
     font-weight: 600;
     cursor: pointer;
-    text-decoration: none; /* ELIMINA LA RAYA DEL ENLACE */
-    display: inline-block; /* NECESARIO para que el padding y transform funcionen bien */
+    text-decoration: none;
+    display: inline-block;
     transition: all 0.3s ease;
     box-shadow: 0 3px 10px rgba(0, 123, 255, 0.3);
 }
 
-.btn-primary:hover, /* Para botones */
-a.btn-primary:hover { /* PARA ENLACES (<a>) con estilo de botón */
-    background: #0056b3; /* Tono de azul más oscuro para hover */
-    transform: translateY(-2px); /* ANIMACIÓN DE SUBIDA RESTAURADA */
+.btn-primary:hover,
+a.btn-primary:hover {
+    background: var(--primary-blue-dark);
+    transform: translateY(-2px);
     box-shadow: 0 5px 14px rgba(0, 123, 255, 0.5);
 }
 
 /* ======= BREADCRUMB / ENLACES (SECCIÓN CORREGIDA) ======= */
 .breadcrumb {
     padding: 20px 40px;
-    color: #6c757d; /* Un gris neutro y profesional */
+    color: var(--text-secondary);
     font-size: 14px;
 }
 
 .breadcrumb a {
-    color: #007BFF; /* Azul Médico Principal para links */
+    color: var(--primary-blue);
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
 .breadcrumb a:hover {
-    color: #0056b3; /* Tono de azul más oscuro para hover */
+    color: var(--primary-blue-dark);
 }
 
 /* !!! FIX DE ESPECIFICIDAD CLAVE !!! */
@@ -118,7 +220,8 @@ main {
 h1 {
     font-size: 44px;
     margin-bottom: 60px;
-    color: #212529; /* Título oscuro para legibilidad */
+    color: var(--text-primary);
+    transition: color 0.3s ease;
 }
 
 /* ======= CONTENEDOR DE SUBIDA (DROPZONE) ======= */
@@ -162,8 +265,8 @@ h1 {
 
 .upload-btn {
     /* Botón interno blanco para máximo contraste y foco */
-    background: white;
-    color: #212529; /* Texto interno oscuro */
+    background: var(--bg-secondary);
+    color: var(--text-primary);
     border: none;
     padding: 14px 32px;
     border-radius: 30px;
@@ -180,7 +283,7 @@ h1 {
 .upload-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(0,0,0,0.25);
-    background-color: #f0f3ff; /* Un blanco azulado sutil */
+    background-color: var(--primary-blue-light);
 }
 
 .upload-text {
@@ -379,25 +482,24 @@ h1 {
 }
 
 .feature-item {
-    background: #ffffff;
+    background: var(--card-bg);
     border-radius: 20px;
     padding: 25px 30px;
     width: 300px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 12px var(--shadow-color);
     transition: all 0.3s ease;
     text-align: center;
 }
 
 .feature-item:hover {
     transform: translateY(-5px);
-    /* Sombra con el azul principal para el hover */
     box-shadow: 0 8px 20px rgba(0, 123, 255, 0.25); 
 }
 
 .check-icon {
     width: 30px;
     height: 30px;
-    background: #28A745; /* Verde Acento (Éxito/Salud) */
+    background: var(--success-green);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -413,9 +515,10 @@ h1 {
 }
 
 .feature-text {
-    color: #333; /* Mantener un color oscuro para buena legibilidad */
+    color: var(--feature-text);
     font-size: 16px;
     line-height: 1.6;
+    transition: color 0.3s ease;
 }
 
 input[type="file"] {
@@ -449,23 +552,24 @@ input[type="file"] {
 
 /* Estilo para la tarjeta/contenedor del formulario */
 .form-card {
-    background: white;
+    background: var(--card-bg);
     padding: 30px 40px;
     border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 15px var(--shadow-color);
     width: 100%;
-    max-width: 450px; /* Ancho máximo para que no se extienda demasiado */
+    max-width: 450px;
     margin-top: 20px;
+    transition: background-color 0.3s ease;
 }
 
 .form-card h2 {
     font-size: 28px;
-    color: #212529;
+    color: var(--text-primary);
     margin-bottom: 5px;
 }
 
 .form-subtitle {
-    color: #6c757d;
+    color: var(--text-secondary);
     margin-bottom: 25px;
     font-size: 15px;
 }
@@ -478,7 +582,7 @@ input[type="file"] {
     display: block;
     margin-bottom: 8px;
     font-weight: 600;
-    color: #212529;
+    color: var(--text-primary);
     font-size: 14px;
 }
 
@@ -488,14 +592,16 @@ input[type="file"] {
 .form-field input[type="number"] {
     width: 100%;
     padding: 12px 15px;
-    border: 1px solid #ced4da;
+    border: 1px solid var(--input-border);
     border-radius: 8px;
     font-size: 16px;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    background: var(--input-bg);
+    color: var(--text-primary);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
 }
 
 .form-field input:focus {
-    border-color: #007BFF; /* Azul Médico al enfocar */
+    border-color: var(--primary-blue);
     outline: none;
     box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
 }
@@ -521,18 +627,18 @@ input[type="file"] {
     text-align: center;
     margin-top: 25px;
     font-size: 14px;
-    color: #6c757d;
+    color: var(--text-secondary);
 }
 
 .login-link a {
-    color: #007BFF;
+    color: var(--primary-blue);
     text-decoration: none;
     font-weight: 600;
     transition: color 0.3s ease;
 }
 
 .login-link a:hover {
-    color: #0056b3;
+    color: var(--primary-blue-dark);
     text-decoration: underline;
 }
 
@@ -553,7 +659,7 @@ input[type="file"] {
 .loading-animation {
     width: 50px;
     height: 5px;
-    background-color: #007BFF;
+    background-color: var(--primary-blue);
     border-radius: 5px;
     margin: 20px auto 0;
     opacity: 0.5;
@@ -571,16 +677,17 @@ input[type="file"] {
 
 .disclaimer-footer {
     max-width: 1200px;
-    margin: 40px auto 20px; /* Margen superior y centrado */
+    margin: 40px auto 20px;
     padding: 20px;
-    background-color: #FFF3CD; /* Fondo amarillo claro (color de advertencia/atención) */
-    color: #856404; /* Texto marrón oscuro para contraste */
-    border: 1px solid #FFEEBA;
-    border-left: 5px solid #FFC107; /* Borde izquierdo amarillo/naranja más fuerte */
+    background-color: var(--warning-bg);
+    color: var(--warning-text);
+    border: 1px solid var(--border-color);
+    border-left: 5px solid var(--warning-yellow);
     border-radius: 8px;
     font-size: 14px;
     line-height: 1.5;
-    text-align: left; /* Alineación a la izquierda para mejor lectura */
+    text-align: left;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .disclaimer-footer strong {
@@ -590,7 +697,7 @@ input[type="file"] {
 /* Añade esto a tu styles.css si aún no lo tienes */
 .final-cta {
     padding: 30px;
-    border-top: 1px solid #eee; /* Opcional: una línea de separación sutil */
+    border-top: 1px solid var(--border-color);
     text-align: center;
 }
 
@@ -600,12 +707,12 @@ input[type="file"] {
 
 /* 1. Fondo azul cielo SÓLO para la página de resultados */
 body.results-page-body {
-    background-color: #f0f8ff; /* AliceBlue (azul cielo bajo) */
+    background-color: var(--bg-tertiary);
 }
 
 /* ======= SUMMARY CARD (Resumen Ejecutivo) ======= */
 .summary-card {
-    background: linear-gradient(135deg, #007BFF 0%, #0056b3 100%);
+    background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-dark) 100%);
     border-radius: 16px;
     padding: 25px 30px;
     margin-bottom: 30px;
@@ -650,18 +757,18 @@ body.results-page-body {
 
 /* 2. Estilos para los contenedores (las tarjetas blancas) */
 .results-container {
-    background-color: #ffffff;
+    background-color: var(--card-bg);
     border-radius: 16px;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 5px 20px var(--shadow-color);
     margin-bottom: 30px;
     overflow: hidden;
     border: none;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease;
 }
 
 .results-container:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 8px 30px var(--shadow-hover);
 }
 
 /* ======= COLOR-CODED HEADERS ======= */
@@ -672,21 +779,29 @@ body.results-page-body {
     display: flex;
     align-items: center;
     gap: 12px;
-    border-bottom: 1px solid #e0e0e0;
+    border-bottom: 1px solid var(--border-color);
 }
 
 /* Technical section - Blue theme */
 .results-header-technical {
-    background: linear-gradient(135deg, #e8f4fd 0%, #d0e8f9 100%);
-    color: #0056b3;
-    border-left: 4px solid #007BFF;
+    background: linear-gradient(135deg, var(--primary-blue-light) 0%, var(--primary-blue-light) 100%);
+    color: var(--primary-blue);
+    border-left: 4px solid var(--primary-blue);
 }
 
 /* Simplified section - Green theme */
 .results-header-simplified {
-    background: linear-gradient(135deg, #e8f8e8 0%, #d4edda 100%);
-    color: #155724;
-    border-left: 4px solid #28A745;
+    background: linear-gradient(135deg, var(--success-green-light) 0%, var(--success-green-light) 100%);
+    color: var(--success-green);
+    border-left: 4px solid var(--success-green);
+}
+
+[data-theme="dark"] .results-header-technical {
+    color: #64b5f6;
+}
+
+[data-theme="dark"] .results-header-simplified {
+    color: #81c784;
 }
 
 /* 4. Contenido del texto (AQUÍ ESTÁ LA MAGIA) */
@@ -703,17 +818,18 @@ body.results-page-body {
 /* 5. Estilos para la tipografía (letra grande) */
 .results-content p,
 .results-content li {
-    font-size: 1.05rem;  /* Letra más grande */
-    line-height: 1.8;   /* Más espacio entre líneas */
-    color: #444;       /* Gris oscuro, más suave que el negro */
-    margin-bottom: 1em; /* Espacio entre párrafos/listas */
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--text-muted);
+    margin-bottom: 1em;
+    transition: color 0.3s ease;
 }
 
 /* 6. Estilos para Títulos (los que crea la IA) */
 .results-content h2 {
     font-size: 1.5rem;
-    color: #0056b3;    /* Azul de tu marca */
-    border-bottom: 2px solid #e8f4fd;
+    color: var(--primary-blue);
+    border-bottom: 2px solid var(--primary-blue-light);
     padding-bottom: 12px;
     margin-top: 30px;
     margin-bottom: 20px;
@@ -727,11 +843,11 @@ body.results-page-body {
 /* 7. Estilos para Subtítulos */
 .results-content h3 {
     font-size: 1.25rem;
-    color: #333;
+    color: var(--text-primary);
     margin-top: 25px;
     margin-bottom: 15px;
     padding-left: 10px;
-    border-left: 3px solid #007BFF;
+    border-left: 3px solid var(--primary-blue);
 }
 
 /* 8. Estilos para Listas */
@@ -745,24 +861,43 @@ body.results-page-body {
     position: relative;
     padding: 12px 15px 12px 45px;
     margin-bottom: 8px;
-    background: #f8f9fa;
+    background: var(--results-li-bg);
     border-radius: 8px;
-    border-left: 3px solid #007BFF;
+    border-left: 3px solid var(--primary-blue);
     transition: background 0.2s ease;
 }
 
 .results-content li:hover {
-    background: #e8f4fd;
+    background: var(--results-li-hover);
 }
 
 
 
 /* 9. Estilos para Negritas */
 .results-content strong {
-    color: #000;
+    color: var(--text-primary);
     font-weight: 700;
     background: linear-gradient(180deg, transparent 60%, rgba(0, 123, 255, 0.15) 60%);
     padding: 0 2px;
+}
+
+/* Dark mode specific adjustments for results */
+[data-theme="dark"] .results-content p,
+[data-theme="dark"] .results-content li {
+    color: #ffffff;
+}
+
+[data-theme="dark"] .results-content strong {
+    color: #ffffff;
+    background: linear-gradient(180deg, transparent 60%, rgba(77, 163, 255, 0.3) 60%);
+}
+
+[data-theme="dark"] .results-content h2 {
+    color: #64b5f6;
+}
+
+[data-theme="dark"] .results-content h3 {
+    color: #f0f0f0;
 }
 
 /* ======= RESPONSIVE ADJUSTMENTS ======= */
