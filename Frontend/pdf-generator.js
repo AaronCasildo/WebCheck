@@ -58,7 +58,7 @@ function downloadResultsAsPdf(fileName, analysisResult) {
         doc.setFontSize(10);
         doc.setTextColor(...warningText);
         doc.setFont('helvetica', 'bold');
-        doc.text('⚠️ Aviso Importante', margin + 5, boxY + 7);
+        doc.text('Aviso Importante', margin + 5, boxY + 7);
         
         // Texto del disclaimer (mensaje largo)
         doc.setFontSize(8);
