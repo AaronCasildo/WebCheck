@@ -678,20 +678,50 @@ input[type="file"] {
 .disclaimer-footer {
     max-width: 1200px;
     margin: 40px auto 20px;
-    padding: 20px;
+    padding: 20px 25px;
     background-color: var(--warning-bg);
     color: var(--warning-text);
     border: 1px solid var(--border-color);
     border-left: 5px solid var(--warning-yellow);
     border-radius: 8px;
     font-size: 14px;
-    line-height: 1.5;
+    line-height: 1.6;
     text-align: left;
     transition: background-color 0.3s ease, color 0.3s ease;
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.disclaimer-icon {
+    width: 60px;
+    height: 60px;
+    flex-shrink: 0;
+    margin-top: 5px;
+}
+
+.disclaimer-footer p {
+    margin: 0;
+    flex: 1;
 }
 
 .disclaimer-footer strong {
     font-weight: 700;
+    display: block;
+    font-size: 16px;
+    margin-bottom: 8px;
+    color: var(--warning-text);
+}
+
+/* Dark mode adjustments for disclaimer */
+[data-theme="dark"] .disclaimer-footer {
+    border: 1px solid var(--warning-yellow);
+    border-left: 5px solid var(--warning-yellow);
+}
+
+[data-theme="dark"] .disclaimer-footer strong {
+    color: #ffcc00;
+    font-size: 17px;
 }
 
 /* Añade esto a tu styles.css si aún no lo tienes */

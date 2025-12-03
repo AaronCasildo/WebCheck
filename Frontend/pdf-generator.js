@@ -2,13 +2,43 @@
 // Módulo para la generación de PDFs de resultados de HealthCheck
 
 /**
+ * Carga una imagen y la convierte a base64
+ * @param {string} url - URL de la imagen
+ * @returns {Promise<string>} - Imagen en formato base64
+ */
+function loadImageAsBase64(url) {
+    return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.onload = function() {
+            const canvas = document.createElement('canvas');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0);
+            resolve(canvas.toDataURL('image/png'));
+        };
+        img.onerror = reject;
+        img.src = url;
+    });
+}
+
+/**
  * Genera y descarga un archivo PDF con los resultados del análisis.
  * @param {string} fileName - Nombre del archivo analizado
  * @param {Object} analysisResult - Objeto con los resultados del análisis
  */
-function downloadResultsAsPdf(fileName, analysisResult) {
+async function downloadResultsAsPdf(fileName, analysisResult) {
     const { jsPDF } = window.jspdf;
     const { interpretacionConceptos, resultadosSimplificados, resumenEjecutivo } = analysisResult;
+    
+    // Cargar imagen de warning
+    let warningImage = null;
+    try {
+        warningImage = await loadImageAsBase64('../media/warning.png');
+    } catch (e) {
+        console.warn('No se pudo cargar la imagen de warning:', e);
+    }
     
     // Crear nuevo documento PDF
     const doc = new jsPDF({
@@ -32,7 +62,7 @@ function downloadResultsAsPdf(fileName, analysisResult) {
     const warningText = [133, 100, 4];
     
     // Disclaimer configuration
-    const disclaimerBoxHeight = 28; // Height of the disclaimer box (taller for long message)
+    const disclaimerBoxHeight = 32; // Height of the disclaimer box (taller for larger icon)
     const disclaimerTopMargin = 10; // Space from top of page
     const contentStartAfterDisclaimer = disclaimerTopMargin + disclaimerBoxHeight + 8; // Where content starts on pages 2+
     const longDisclaimerText = 'Esta interpretación fue generada con el apoyo de Inteligencia Artificial (IA) y tiene fines meramente informativos. NO sustituye el diagnóstico, la opinión o el tratamiento de un médico o profesional de la salud cualificado. Consulte siempre a su médico con sus resultados originales.';
@@ -47,6 +77,9 @@ function downloadResultsAsPdf(fileName, analysisResult) {
         
         const boxWidth = pageWidth - (margin * 2);
         const boxY = customY !== null ? customY : disclaimerTopMargin;
+        const iconSize = 18; // Tamaño del icono en mm (más grande)
+        const iconPadding = 5; // Espacio alrededor del icono
+        const textOffsetX = warningImage ? iconSize + iconPadding + 8 : 5; // Offset del texto si hay imagen
         
         // Fondo amarillo claro con borde
         doc.setFillColor(...warningBg);
@@ -54,19 +87,25 @@ function downloadResultsAsPdf(fileName, analysisResult) {
         doc.setLineWidth(0.5);
         doc.roundedRect(margin, boxY, boxWidth, disclaimerBoxHeight, 3, 3, 'FD');
         
-        // Icono y título
+        // Agregar imagen de warning si está disponible (centrada verticalmente)
+        if (warningImage) {
+            const iconY = boxY + (disclaimerBoxHeight - iconSize) / 2;
+            doc.addImage(warningImage, 'PNG', margin + iconPadding, iconY, iconSize, iconSize);
+        }
+        
+        // Título
         doc.setFontSize(10);
         doc.setTextColor(...warningText);
         doc.setFont('helvetica', 'bold');
-        doc.text('Aviso Importante', margin + 5, boxY + 7);
+        doc.text('Aviso Importante', margin + textOffsetX, boxY + 8);
         
         // Texto del disclaimer (mensaje largo)
         doc.setFontSize(8);
         doc.setFont('helvetica', 'normal');
-        const disclaimerLines = doc.splitTextToSize(longDisclaimerText, boxWidth - 10);
-        let textY = boxY + 13;
+        const disclaimerLines = doc.splitTextToSize(longDisclaimerText, boxWidth - textOffsetX - 5);
+        let textY = boxY + 14;
         disclaimerLines.forEach(line => {
-            doc.text(line, margin + 5, textY);
+            doc.text(line, margin + textOffsetX, textY);
             textY += 4;
         });
         
