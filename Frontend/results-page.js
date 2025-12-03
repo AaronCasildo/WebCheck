@@ -59,8 +59,8 @@ window.addEventListener('DOMContentLoaded', () => {
         // Configurar el botón de descarga
         const downloadBtn = document.getElementById('downloadBtn');
         if (downloadBtn) {
-            downloadBtn.addEventListener('click', () => {
-                downloadResultsAsPdf(fileName, analysisResult);
+            downloadBtn.addEventListener('click', async () => {
+                await downloadResultsAsPdf(fileName, analysisResult);
             });
         }
 
