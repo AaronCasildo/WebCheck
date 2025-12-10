@@ -189,6 +189,7 @@ a.btn-primary:hover {
     padding: 20px 40px;
     color: var(--text-secondary);
     font-size: 14px;
+    margin-bottom: 20px;
 }
 
 .breadcrumb a {
@@ -206,6 +207,127 @@ a.btn-primary:hover {
 .breadcrumb a.btn-primary {
     color: white; 
     transition: all 0.3s ease; /* Asegura que la velocidad de la animación sea suave */
+}
+
+/* ======= HISTORY PAGE STYLES ======= */
+.history-page {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.history-header {
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 0 20px;
+}
+
+.page-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 15px;
+}
+
+.page-subtitle {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+.history-container {
+    margin-bottom: 40px;
+    padding: 0 20px;
+}
+
+.empty-state {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    padding: 40px 50px;
+    background: var(--card-bg);
+    border-radius: 16px;
+    box-shadow: 0 4px 12px var(--shadow-color);
+    margin: 0 20px 40px;
+    text-align: left;
+}
+
+.empty-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+}
+
+.empty-state h2 {
+    font-size: 1.8rem;
+    color: var(--text-primary);
+    margin-bottom: 0;
+    text-align: left;
+}
+
+.empty-state p {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    margin: 0;
+    line-height: 1.6;
+    text-align: left;
+}
+
+.empty-state .btn-primary {
+    flex-shrink: 0;
+    white-space: nowrap;
+    padding: 14px 28px;
+}
+
+.clear-all-container {
+    text-align: center;
+    padding: 20px;
+    margin-bottom: 40px;
+}
+
+.btn-danger {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
+}
+
+.btn-danger:hover {
+    background: #c82333;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
+}
+
+/* Responsive adjustments for history page */
+@media (max-width: 768px) {
+    .page-title {
+        font-size: 2rem;
+    }
+    
+    .page-subtitle {
+        font-size: 1rem;
+    }
+    
+    .empty-state {
+        flex-direction: column;
+        text-align: center;
+        padding: 40px 20px;
+        gap: 20px;
+    }
+    
+    .empty-state h2,
+    .empty-state p {
+        text-align: center;
+    }
+    
+    .empty-icon {
+        font-size: 3rem;
+    }
 }
 
 
