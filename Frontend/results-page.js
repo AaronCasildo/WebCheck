@@ -64,6 +64,15 @@ window.addEventListener('DOMContentLoaded', () => {
             });
         }
 
+        // Save to history automatically
+        if (typeof saveToHistory === 'function') {
+            saveToHistory({
+                fileName: fileName,
+                result: analysisResult
+            });
+            console.log('Análisis guardado en el historial');
+        }
+
     } catch (error) {
         console.error('Error al procesar los resultados:', error);
         alert('Hubo un error al mostrar los resultados. Inténtalo de nuevo.');
