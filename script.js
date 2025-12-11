@@ -146,7 +146,7 @@ async function handleFiles(files) {
         sessionStorage.setItem('fileName', file.name);
         
         // Redirect to results page
-        window.location.href = 'Frontend/Results.html';
+        window.location.href = 'Frontend/pages/Results.html';
         
     } catch (error) {
         console.error(`❌ Error con ${file.name}:`, error);
