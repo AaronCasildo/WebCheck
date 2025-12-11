@@ -64,14 +64,18 @@ window.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // Save to history automatically
-        if (typeof saveToHistory === 'function') {
+        // Save to history automatically (only if NOT coming from history)
+        const fromHistory = sessionStorage.getItem('fromHistory');
+        if (typeof saveToHistory === 'function' && !fromHistory) {
             saveToHistory({
                 fileName: fileName,
                 result: analysisResult
             });
             console.log('Análisis guardado en el historial');
         }
+        
+        // Clear the flag after checking
+        sessionStorage.removeItem('fromHistory');
 
     } catch (error) {
         console.error('Error al procesar los resultados:', error);
