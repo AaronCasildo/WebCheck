@@ -35,7 +35,7 @@ async function downloadResultsAsPdf(fileName, analysisResult) {
     // Cargar imagen de warning
     let warningImage = null;
     try {
-        warningImage = await loadImageAsBase64('../media/warning.png');
+        warningImage = await loadImageAsBase64('../../media/warning.png');
     } catch (e) {
         console.warn('No se pudo cargar la imagen de warning:', e);
     }

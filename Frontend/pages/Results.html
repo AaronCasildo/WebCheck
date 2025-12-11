@@ -7,9 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tus Resultados Simplificados - HealthCheck</title>
     
-    <link rel="stylesheet" href="styles.css"> 
+    <link rel="stylesheet" href="../styles/styles.css"> 
     
-    <link rel="icon" type="image/x-icon" href="../media/HealthCheck.ico">
+    <link rel="icon" type="image/x-icon" href="../../media/HealthCheck.ico">
     
     <!-- Marked.js - Markdown parser -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
@@ -18,23 +18,23 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     
     <!-- Theme Toggle (load early to prevent flash) -->
-    <script src="theme-toggle.js"></script>
+    <script src="../scripts/utils/theme-toggle.js"></script>
     
     <!-- History Manager -->
-    <script src="history-manager.js"></script>
+    <script src="../scripts/utils/history-manager.js"></script>
 </head>
 <body class="results-page-body">
     <header>
         <div class="logo-section">
-            <a href="../WebCheck.html" class="logo">
-                <img src="../media/corazon.png" alt="Logo de HealthCheck" class="logo-icon">
+            <a href="../../WebCheck.html" class="logo">
+                <img src="../../media/corazon.png" alt="Logo de HealthCheck" class="logo-icon">
                 <span>HealthCheck</span>
             </a>
         </div>
         
         <div class="right-menu">
             <a href="History.html" class="btn-primary">Mi Historial</a>
-            <a href="../WebCheck.html" class="btn-primary">Nueva Carga</a>
+            <a href="../../WebCheck.html" class="btn-primary">Nueva Carga</a>
         </div>
     </header>
 
@@ -77,11 +77,11 @@
 
     
     <footer class="disclaimer-footer">
-        <img src="../media/warning.png" alt="Warning" class="disclaimer-icon">
+        <img src="../../media/warning.png" alt="Warning" class="disclaimer-icon">
         <p><strong>Aviso Importante:</strong> La interpretación de estos resultados fue generada con el apoyo de Inteligencia Artificial (IA) y tiene fines meramente informativos. Esta herramienta NO sustituye el diagnóstico, la opinión o el tratamiento de un médico o profesional de la salud cualificado. Consulta siempre a tu médico con tus resultados originales.</p>
     </footer>
 
-    <script src="pdf-generator.js"></script>
-    <script src="results-page.js"></script>
+    <script src="../scripts/modules/pdf-generator.js"></script>
+    <script src="../scripts/modules/results-page.js"></script>
 </body>
 </html>

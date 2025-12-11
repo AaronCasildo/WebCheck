@@ -10,7 +10,7 @@ window.addEventListener('DOMContentLoaded', () => {
     if (!analysisResultString) {
         // (Quitamos el alert() porque no funciona bien en el entorno)
         console.error('No se encontraron datos de análisis. Redirigiendo...');
-        window.location.href = '../WebCheck.html';
+        window.location.href = '../../../WebCheck.html';
         return;
     }
     

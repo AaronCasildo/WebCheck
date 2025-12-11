@@ -5,33 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Historial - HealthCheck</title>
     
-    <link rel="stylesheet" href="styles.css"> 
+    <link rel="stylesheet" href="../styles/styles.css"> 
     
-    <link rel="icon" type="image/x-icon" href="../media/HealthCheck.ico">
+    <link rel="icon" type="image/x-icon" href="../../media/HealthCheck.ico">
     
     <!-- Theme Toggle (load early to prevent flash) -->
-    <script src="theme-toggle.js"></script>
+    <script src="../scripts/utils/theme-toggle.js"></script>
     
     <!-- History Manager -->
-    <script src="history-manager.js"></script>
+    <script src="../scripts/utils/history-manager.js"></script>
 </head>
 <body>
     <header>
         <div class="logo-section">
-            <a href="../WebCheck.html" class="logo">
-                <img src="../media/corazon.png" alt="Logo de HealthCheck" class="logo-icon">
+            <a href="../../WebCheck.html" class="logo">
+                <img src="../../media/corazon.png" alt="Logo de HealthCheck" class="logo-icon">
                 <span>HealthCheck</span>
             </a>
         </div>
         
         <div class="right-menu">
-            <a href="../WebCheck.html" class="btn-primary">Nueva Carga</a>
+            <a href="../../WebCheck.html" class="btn-primary">Nueva Carga</a>
         </div>
     </header>
 
     <main class="history-page">
         <div class="breadcrumb">
-            <a href="../WebCheck.html">Inicio</a> / Mi Historial
+            <a href="../../WebCheck.html">Inicio</a> / Mi Historial
         </div>
 
         <div class="history-header">
@@ -48,7 +48,7 @@
         <div id="emptyState" class="empty-state" style="display: none;">
             <h2>No tienes análisis guardados</h2>
             <p>Los análisis que realices se guardarán automáticamente aquí para que puedas acceder a ellos más tarde.</p>
-            <a href="../WebCheck.html" class="btn-primary">Analizar Resultados</a>
+            <a href="../../WebCheck.html" class="btn-primary">Analizar Resultados</a>
         </div>
 
         <!-- Clear All Button -->
@@ -57,6 +57,6 @@
         </div>
     </main>
 
-    <script src="history.js"></script>
+    <script src="../scripts/modules/history.js"></script>
 </body>
 </html>
