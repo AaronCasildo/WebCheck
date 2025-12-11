@@ -106,6 +106,7 @@ function handleViewResult(id) {
     // Store in sessionStorage and navigate to Results page
     sessionStorage.setItem('analysisResult', JSON.stringify(item.result));
     sessionStorage.setItem('fileName', item.fileName);
+    sessionStorage.setItem('fromHistory', 'true'); // Flag to prevent duplicate save
     window.location.href = 'Results.html';
 }
 
