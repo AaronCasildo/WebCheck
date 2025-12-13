@@ -2,6 +2,9 @@
 
 // Espera a que todo el contenido de la página se cargue
 window.addEventListener('DOMContentLoaded', () => {
+    // Show disclaimer modal first
+    showDisclaimerModal();
+    
     // Recuperar los datos de sessionStorage
     const analysisResultString = sessionStorage.getItem('analysisResult');
     const fileName = sessionStorage.getItem('fileName');
@@ -116,4 +119,42 @@ function formatMarkdownToHtml(text) {
 
     // Use marked.js to parse markdown
     return marked.parse(cleanedText);
+}
+
+/**
+ * Shows the disclaimer modal and blocks content until user accepts
+ */
+function showDisclaimerModal() {
+    const modal = document.getElementById('disclaimerModal');
+    const acceptBtn = document.getElementById('acceptDisclaimerBtn');
+    const mainContent = document.querySelector('main');
+    
+    // Show modal and hide main content
+    if (modal) {
+        modal.classList.remove('hidden');
+    }
+    
+    if (mainContent) {
+        mainContent.style.filter = 'blur(10px)';
+        mainContent.style.pointerEvents = 'none';
+    }
+    
+    // Accept button click handler
+    if (acceptBtn) {
+        acceptBtn.addEventListener('click', () => {
+            // Hide modal with fade-out animation
+            if (modal) {
+                modal.style.animation = 'fadeOut 0.3s ease';
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                }, 300);
+            }
+            
+            // Show and enable main content
+            if (mainContent) {
+                mainContent.style.filter = 'none';
+                mainContent.style.pointerEvents = 'auto';
+            }
+        });
+    }
 }
