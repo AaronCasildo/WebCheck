@@ -1088,6 +1088,12 @@ body.results-page-body {
     margin-bottom: 20px;
 }
 
+/* Green styling for simplified results h2 */
+#resultadosSimplificados .results-content h2 {
+    color: var(--success-green);
+    border-bottom: 2px solid var(--success-green-light);
+}
+
 .results-content h2::before {
     content: '📌 ';
     font-size: 1.2rem;
@@ -1101,6 +1107,11 @@ body.results-page-body {
     margin-bottom: 15px;
     padding-left: 10px;
     border-left: 3px solid var(--primary-blue);
+}
+
+/* Green styling for simplified results h3 */
+#resultadosSimplificados .results-content h3 {
+    border-left: 3px solid var(--success-green);
 }
 
 /* 8. Estilos para Listas */
@@ -1124,6 +1135,15 @@ body.results-page-body {
     background: var(--results-li-hover);
 }
 
+/* Green styling for simplified results list items */
+#resultadosSimplificados .results-content li {
+    border-left: 3px solid var(--success-green);
+}
+
+#resultadosSimplificados .results-content li:hover {
+    background: var(--success-green-light);
+}
+
 
 
 /* 9. Estilos para Negritas */
@@ -1132,6 +1152,11 @@ body.results-page-body {
     font-weight: 700;
     background: linear-gradient(180deg, transparent 60%, rgba(0, 123, 255, 0.15) 60%);
     padding: 0 2px;
+}
+
+/* Green highlight for simplified results strong text */
+#resultadosSimplificados .results-content strong {
+    background: linear-gradient(180deg, transparent 60%, rgba(40, 167, 69, 0.15) 60%);
 }
 
 /* Dark mode specific adjustments for results */
@@ -1151,6 +1176,15 @@ body.results-page-body {
 
 [data-theme="dark"] .results-content h3 {
     color: #f0f0f0;
+}
+
+/* Dark mode green colors for simplified results */
+[data-theme="dark"] #resultadosSimplificados .results-content h2 {
+    color: #81c784;
+}
+
+[data-theme="dark"] #resultadosSimplificados .results-content strong {
+    background: linear-gradient(180deg, transparent 60%, rgba(92, 184, 92, 0.3) 60%);
 }
 
 /* ======= RESPONSIVE ADJUSTMENTS ======= */
