@@ -36,10 +36,24 @@ fileInput.addEventListener('change', (e) => {
 });
 
 async function handleFiles(files) {
+    const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB in bytes
+    
     const pdfFiles = [...files].filter(file => file.type === 'application/pdf');
     
     if (pdfFiles.length === 0) {
         alert('Por favor, selecciona al menos un archivo PDF válido.');
+        return;
+    }
+    
+    // Validate file size
+    const file = pdfFiles[0];
+    if (file.size > MAX_FILE_SIZE) {
+        alert(`El archivo es demasiado grande. Tamaño máximo: 10MB.\nTu archivo: ${(file.size / 1024 / 1024).toFixed(2)}MB`);
+        return;
+    }
+    
+    if (file.size < 100) {
+        alert('El archivo está vacío o es inválido.');
         return;
     }
     
@@ -75,8 +89,6 @@ async function handleFiles(files) {
             </div>
         </div>
     `;
-    
-    const file = pdfFiles[0];
     const progressBar = document.getElementById('progressBar');
     const progressPercentage = document.getElementById('progressPercentage');
     const progressFilename = document.getElementById('progressFilename');
