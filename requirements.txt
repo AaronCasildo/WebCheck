@@ -15,5 +15,8 @@ google-generativeai
 # Carga de variables de entorno desde .env
 python-dotenv
 
+# Rate limiting para prevenir abuso de API
+slowapi
+
 # Para instalar las dependencias de este archivo ejecuta:
 # pip install -r requirements.txt
