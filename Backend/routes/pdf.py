@@ -5,6 +5,7 @@ import json
 import logging
 from fastapi import APIRouter, File, UploadFile, HTTPException
 
+from config import MAX_FILE_SIZE_BYTES, MAX_FILE_SIZE_MB
 from services.pdf_service import extract_text_from_pdf
 from services.ai_service import analyze_lab_results
 
@@ -45,9 +46,28 @@ async def upload_pdf(file: UploadFile = File(...)):
     if not file.filename.endswith('.pdf'):
         raise HTTPException(status_code=400, detail="El archivo debe ser un PDF.")
     
+    # Validate content type
+    if file.content_type and file.content_type != 'application/pdf':
+        raise HTTPException(status_code=400, detail="El tipo de contenido debe ser application/pdf.")
+    
     # Read PDF content
     pdf_bytes = await file.read()
     logger.info(f"✅ PDF leído: {len(pdf_bytes)} bytes")
+    
+    # Validate file size
+    if len(pdf_bytes) > MAX_FILE_SIZE_BYTES:
+        raise HTTPException(
+            status_code=413, 
+            detail=f"El archivo es demasiado grande. Tamaño máximo: {MAX_FILE_SIZE_MB}MB."
+        )
+    
+    # Validate minimum file size (empty or corrupted files)
+    if len(pdf_bytes) < 100:
+        raise HTTPException(status_code=400, detail="El archivo está vacío o es inválido.")
+    
+    # Validate PDF magic number (PDF files start with %PDF)
+    if not pdf_bytes.startswith(b'%PDF'):
+        raise HTTPException(status_code=400, detail="El archivo no es un PDF válido.")
     
     try:
         # Extract text from PDF
