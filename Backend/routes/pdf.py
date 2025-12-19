@@ -3,15 +3,18 @@
 
 import json
 import logging
-from fastapi import APIRouter, File, UploadFile, HTTPException
+from fastapi import APIRouter, File, UploadFile, HTTPException, Request
+from slowapi import Limiter
+from slowapi.util import get_remote_address
 
-from config import MAX_FILE_SIZE_BYTES, MAX_FILE_SIZE_MB
+from config import MAX_FILE_SIZE_BYTES, MAX_FILE_SIZE_MB, RATE_LIMIT_UPLOADS
 from services.pdf_service import extract_text_from_pdf
 from services.ai_service import analyze_lab_results
 
 logger = logging.getLogger(__name__)
 
 router = APIRouter()
+limiter = Limiter(key_func=get_remote_address)
 
 
 def _create_fallback_response(raw_text: str) -> dict:
@@ -36,9 +39,11 @@ def _create_fallback_response(raw_text: str) -> dict:
 
 
 @router.post("/upload-pdf")
-async def upload_pdf(file: UploadFile = File(...)):
+@limiter.limit(RATE_LIMIT_UPLOADS)
+async def upload_pdf(request: Request, file: UploadFile = File(...)):
     """
     Upload a PDF file and get AI-powered analysis of lab results.
+    Rate limited to prevent API abuse.
     """
     logger.info(f"📥 Recibiendo archivo: {file.filename}")
     
