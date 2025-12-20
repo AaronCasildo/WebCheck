@@ -32,26 +32,47 @@ def analyze_lab_results(texto_completo: str) -> str:
         JSON string with the analysis results
     """
     prompt = f"""
-        Eres un hematólogo experto analizando resultados de laboratorio. Analiza los siguientes resultados y proporciona una respuesta estructurada en formato JSON. El JSON debe contener tres claves principales: "interpretacionConceptos", "resultadosSimplificados" y "resumenEjecutivo".
+        Eres un hematólogo experto analizando resultados de laboratorio. 
+        
+        PASO 1: VALIDACIÓN
+        Primero, determina si el documento proporcionado es un resultado de laboratorio clínico válido. 
+        El documento debe contener:
+        - Datos de paciente (nombre, edad, o identificación)
+        - Resultados de exámenes de laboratorio (valores numéricos, rangos de referencia)
+        - Nombre de un laboratorio o institución médica
+        
+        Si NO es un resultado de laboratorio válido (por ejemplo: es un documento de texto, factura, recibo, documento aleatorio, o no contiene información médica de laboratorio), responde con el siguiente JSON:
+        {{
+            "isValid": false,
+            "errorMessage": "[Explicación clara de por qué no es válido]",
+            "interpretacionConceptos": "",
+            "resultadosSimplificados": "",
+            "resumenEjecutivo": ""
+        }}
+        
+        PASO 2: ANÁLISIS (solo si es válido)
+        Si el documento SÍ es un resultado de laboratorio válido, proporciona una respuesta estructurada en formato JSON con las siguientes claves: "isValid", "interpretacionConceptos", "resultadosSimplificados" y "resumenEjecutivo".
 
-        1.  **interpretacionConceptos**:
+        1.  **isValid**: true (booleano indicando que es un documento válido)
+        
+        2.  **interpretacionConceptos**:
             -   Aquí va el ANÁLISIS TÉCNICO y la INTERPRETACIÓN CLÍNICA.
             -   Identifica valores fuera de rango, clasifícalos por severidad (crítico, moderado, leve) y explica qué significan clínicamente.
             -   Usa formato Markdown para listas y énfasis (ej. **texto en negrita** o - elemento de lista).
 
-        2.  **resultadosSimplificados**:
+        3.  **resultadosSimplificados**:
             -   Aquí va la EXPLICACIÓN PARA EL PACIENTE.
             -   Traduce todos los hallazgos a un lenguaje simple y claro, como si hablaras con una persona sin conocimientos médicos.
             -   Usa analogías y proporciona contexto sobre posibles siguientes pasos (sin sustituir la consulta médica).
             -   Usa formato Markdown.
 
-        3.  **resumenEjecutivo**:
+        4.  **resumenEjecutivo**:
             -   Explicación breve sobre que es lo que hace el estudio.
             -   Un párrafo muy breve y conciso con los hallazgos más importantes.
 
         Asegúrate de que la salida sea un único objeto JSON válido y nada más. No incluyas "```json" o "```" en la respuesta.
 
-        RESULTADOS DE LABORATORIO:
+        DOCUMENTO A ANALIZAR:
         {texto_completo}
     """
     
