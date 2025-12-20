@@ -231,7 +231,45 @@ a.btn-primary:hover {
 .page-subtitle {
     font-size: 1.1rem;
     color: var(--text-secondary);
-    margin: 0;
+    margin: 0 0 25px 0;
+}
+
+/* Sort Controls */
+.sort-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 25px;
+}
+
+.sort-controls label {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.sort-select {
+    padding: 10px 16px;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    background-color: var(--input-bg);
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    outline: none;
+    min-width: 200px;
+}
+
+.sort-select:hover {
+    border-color: var(--primary-blue);
+}
+
+.sort-select:focus {
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
 }
 
 .history-container {
@@ -390,6 +428,17 @@ a.btn-primary:hover {
     
     .page-subtitle {
         font-size: 1rem;
+    }
+    
+    .sort-controls {
+        flex-direction: column;
+        gap: 8px;
+        margin-top: 20px;
+    }
+    
+    .sort-select {
+        width: 100%;
+        max-width: 300px;
     }
     
     .history-card {
