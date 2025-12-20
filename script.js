@@ -135,7 +135,17 @@ async function handleFiles(files) {
         await sleep(200);
         
         if (!response.ok) {
-            throw new Error(`Error del servidor: ${response.status}`);
+            // Parse error message from server
+            let errorMessage = `Error del servidor: ${response.status}`;
+            try {
+                const errorData = await response.json();
+                if (errorData.detail) {
+                    errorMessage = errorData.detail;
+                }
+            } catch (e) {
+                // If can't parse JSON, use default error
+            }
+            throw new Error(errorMessage);
         }
         
         // Step 3: Analyzing with AI (50-90%)

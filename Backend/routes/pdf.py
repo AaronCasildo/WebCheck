@@ -101,6 +101,15 @@ async def upload_pdf(request: Request, file: UploadFile = File(...)):
             else:
                 analysis_result_json = _create_fallback_response(analysis_result_str)
         
+        # Check if the PDF is a valid lab exam
+        if not analysis_result_json.get("isValid", True):
+            error_message = analysis_result_json.get("errorMessage", "El documento no es un resultado de laboratorio válido.")
+            logger.warning(f"⚠️ PDF no válido: {error_message}")
+            raise HTTPException(
+                status_code=400, 
+                detail=error_message
+            )
+        
         return {
             "message": "PDF procesado correctamente",
             "filename": file.filename,
