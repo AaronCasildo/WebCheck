@@ -1,6 +1,8 @@
 // history.js
 // Page logic for History.html
 
+let currentSort = 'name-asc'; // Default sort
+
 document.addEventListener('DOMContentLoaded', () => {
     loadHistoryPage();
     
@@ -8,6 +10,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const clearAllBtn = document.getElementById('clearAllBtn');
     if (clearAllBtn) {
         clearAllBtn.addEventListener('click', handleClearAll);
+    }
+    
+    // Set up sort dropdown
+    const sortSelect = document.getElementById('sortSelect');
+    if (sortSelect) {
+        sortSelect.addEventListener('change', (e) => {
+            currentSort = e.target.value;
+            loadHistoryPage();
+        });
     }
 });
 
@@ -31,11 +42,37 @@ function loadHistoryPage() {
         emptyState.style.display = 'none';
         clearAllContainer.style.display = 'block';
         
+        // Sort history based on current sort option
+        const sortedHistory = sortHistory(history, currentSort);
+        
         // Render history cards
-        container.innerHTML = history.map(item => createHistoryCard(item)).join('');
+        container.innerHTML = sortedHistory.map(item => createHistoryCard(item)).join('');
         
         // Attach event listeners to buttons
         attachCardEventListeners();
+    }
+}
+
+/**
+ * Sort history items based on selected criteria
+ * @param {Array} history - History items array
+ * @param {string} sortType - Sort type (date-desc, date-asc, name-asc, name-desc)
+ * @returns {Array} Sorted history array
+ */
+function sortHistory(history, sortType) {
+    const sorted = [...history]; // Create a copy to avoid mutating original
+    
+    switch (sortType) {
+        case 'date-desc':
+            return sorted.sort((a, b) => b.timestamp - a.timestamp);
+        case 'date-asc':
+            return sorted.sort((a, b) => a.timestamp - b.timestamp);
+        case 'name-asc':
+            return sorted.sort((a, b) => a.fileName.localeCompare(b.fileName, 'es', { sensitivity: 'base' }));
+        case 'name-desc':
+            return sorted.sort((a, b) => b.fileName.localeCompare(a.fileName, 'es', { sensitivity: 'base' }));
+        default:
+            return sorted;
     }
 }
 
