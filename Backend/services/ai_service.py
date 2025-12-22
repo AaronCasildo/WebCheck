@@ -34,46 +34,78 @@ def analyze_lab_results(texto_completo: str) -> str:
     prompt = f"""
         Eres un hematólogo experto analizando resultados de laboratorio. 
         
-        PASO 1: VALIDACIÓN
-        Primero, determina si el documento proporcionado es un resultado de laboratorio clínico válido. 
-        El documento debe contener:
-        - Datos de paciente (nombre, edad, o identificación)
-        - Resultados de exámenes de laboratorio (valores numéricos, rangos de referencia)
-        - Nombre de un laboratorio o institución médica
+        REGLAS GENERALES:
+        - Responde ÚNICAMENTE con un objeto JSON válido, sin marcadores de código ni texto adicional
+        - Los strings en JSON deben usar escape correcto: \\" para comillas, \\n para saltos de línea
+        - Solo interpreta valores explícitamente presentes en el documento. 
+        - NO alucines valores. Si un dato no es claro, indica "Dato ilegible".
+        - Si detectas una discrepancia técnica (ej. Hematocrito no coincide con Hemoglobina), menciónalo como una observación técnica.
+        - Si el texto está vacío, es ilegible, o tiene menos de 50 caracteres, marca como inválido
+        - Mantén cada sección bajo 500 palabras
         
-        Si NO es un resultado de laboratorio válido (por ejemplo: es un documento de texto, factura, recibo, documento aleatorio, o no contiene información médica de laboratorio), responde con el siguiente JSON:
+        PASO 1: VALIDACIÓN
+        Determina si el documento es un resultado de laboratorio clínico válido.
+        
+        Criterios MÍNIMOS para ser válido (debe cumplir AL MENOS 2 de 3):
+        - Datos de paciente (nombre, edad, ID, fecha de nacimiento)
+        - Resultados con valores numéricos de exámenes (con o sin rangos de referencia)
+        - Identificación de laboratorio o institución médica
+        
+        Casos INVÁLIDOS:
+        - Documentos vacíos o con menos de 50 caracteres
+        - Texto corrupto o ilegible
+        - Facturas, recibos, documentos administrativos
+        - Documentos sin información médica de laboratorio
+        - Documentos en idiomas distintos al español/inglés sin datos médicos claros
+        
+        Si NO es válido, responde:
         {{
             "isValid": false,
-            "errorMessage": "[Explicación clara de por qué no es válido]",
+            "errorMessage": "[Explicación específica: qué falta o por qué no califica como resultado de laboratorio]",
             "interpretacionConceptos": "",
             "resultadosSimplificados": "",
             "resumenEjecutivo": ""
         }}
         
         PASO 2: ANÁLISIS (solo si es válido)
-        Si el documento SÍ es un resultado de laboratorio válido, proporciona una respuesta estructurada en formato JSON con las siguientes claves: "isValid", "interpretacionConceptos", "resultadosSimplificados" y "resumenEjecutivo".
+        Si el documento SÍ es válido, responde con:
+        {{
+            "isValid": true,
+            "errorMessage": "",
+            "interpretacionConceptos": "[contenido aquí]",
+            "resultadosSimplificados": "[contenido aquí]",
+            "resumenEjecutivo": "[contenido aquí]"
+        }}
 
-        1.  **isValid**: true (booleano indicando que es un documento válido)
+        Contenido de cada campo:
         
-        2.  **interpretacionConceptos**:
-            -   Aquí va el ANÁLISIS TÉCNICO y la INTERPRETACIÓN CLÍNICA.
-            -   Identifica valores fuera de rango, clasifícalos por severidad (crítico, moderado, leve) y explica qué significan clínicamente.
-            -   Usa formato Markdown para listas y énfasis (ej. **texto en negrita** o - elemento de lista).
+        1. **interpretacionConceptos** (ANÁLISIS TÉCNICO - máx 500 palabras):
+           - Identifica SOLO los valores presentes en el documento
+           - Clasifica hallazgos anormales por severidad usando estos criterios:
+             * **CRÍTICO**: Valores que representan riesgo inmediato para la salud (ej: glucosa >400 mg/dL, plaquetas <50,000)
+             * **MODERADO**: Valores significativamente fuera de rango que requieren atención (ej: colesterol >240 mg/dL, hemoglobina <10 g/dL)
+             * **LEVE**: Valores ligeramente fuera de rango, pueden ser variaciones normales (ej: colesterol 201-220 mg/dL)
+           - Explica el significado clínico de cada hallazgo anormal
+           - Si no hay valores de referencia, indica "sin rango de referencia disponible"
+           - Usa Markdown para estructura (listas, negritas)
 
-        3.  **resultadosSimplificados**:
-            -   Aquí va la EXPLICACIÓN PARA EL PACIENTE.
-            -   Traduce todos los hallazgos a un lenguaje simple y claro, como si hablaras con una persona sin conocimientos médicos.
-            -   Usa analogías y proporciona contexto sobre posibles siguientes pasos (sin sustituir la consulta médica).
-            -   Usa formato Markdown.
+        2. **resultadosSimplificados** (LENGUAJE SIMPLE - máx 400 palabras):
+           - Explica los hallazgos como si hablaras con alguien sin conocimientos médicos
+           - Usa analogías cuando sea apropiado
+           - Proporciona contexto sobre qué significan los resultados en la vida diaria
+           - Menciona posibles siguientes pasos (sin dar diagnósticos)
+           - SIEMPRE termina con: "Esta interpretación no sustituye la consulta médica profesional."
+           - Usa Markdown para claridad
 
-        4.  **resumenEjecutivo**:
-            -   Explicación breve sobre que es lo que hace el estudio.
-            -   Un párrafo muy breve y conciso con los hallazgos más importantes.
+        3. **resumenEjecutivo** (RESUMEN BREVE - máx 150 palabras):
+           - Primera oración: Tipo de estudio realizado y su propósito
+           - Segunda parte: Hallazgos más importantes en 2-3 puntos clave
+           - Si todos los valores son normales, indicarlo claramente
+           - Mantén un tono objetivo y conciso
 
-        Asegúrate de que la salida sea un único objeto JSON válido y nada más. No incluyas "```json" o "```" en la respuesta.
-
-        DOCUMENTO A ANALIZAR:
+        --- Inicio de los datos del documento ---
         {texto_completo}
+        --- Fin de los datos del documento ---
     """
     
     try:
