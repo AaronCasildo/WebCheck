@@ -37,7 +37,9 @@ def analyze_lab_results(texto_completo: str) -> str:
         REGLAS GENERALES:
         - Responde ÚNICAMENTE con un objeto JSON válido, sin marcadores de código ni texto adicional
         - Los strings en JSON deben usar escape correcto: \\" para comillas, \\n para saltos de línea
-        - Solo interpreta valores explícitamente presentes en el documento
+        - Solo interpreta valores explícitamente presentes en el documento. 
+        - NO alucines valores. Si un dato no es claro, indica "Dato ilegible".
+        - Si detectas una discrepancia técnica (ej. Hematocrito no coincide con Hemoglobina), menciónalo como una observación técnica.
         - Si el texto está vacío, es ilegible, o tiene menos de 50 caracteres, marca como inválido
         - Mantén cada sección bajo 500 palabras
         
