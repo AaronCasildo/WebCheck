@@ -83,6 +83,13 @@
 | **Formatted Report** | Includes header, sections, and disclaimer |
 | **Multi-page Support** | Automatic pagination for long results |
 
+### 🆕 New Features
+| Feature | Description |
+|---------|-------------|
+| **Rate Limiting** | API protection with 60 requests/minute limit |
+| **Enhanced Security** | CORS configuration and request validation |
+| **Modular Architecture** | Organized routes and services structure |
+
 ---
 
 ## 🛠️ Tech Stack
