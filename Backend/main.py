@@ -42,6 +42,35 @@ app.add_middleware(
 app.include_router(pdf_router)
 
 
+# Startup Event
+@app.on_event("startup")
+async def startup_event():
+    """Display startup banner with API information."""
+    current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    gemini_status = "Connected" if GEMINI_API_KEY else "Not configured"
+    
+    banner = f"""
+╔══════════════════════════════════════════════════════════════╗
+║                      HEALTHCHECK API                         ║
+╠══════════════════════════════════════════════════════════════╣
+║  Version: 0.1.0                                              ║
+║  Status:  Running                                            ║
+║  Time:    {current_time:<46}     ║
+╠══════════════════════════════════════════════════════════════╣
+║  ENDPOINTS:                                                  ║
+║    • GET  /health          - Health check                    ║
+║    • POST /upload-pdf      - Upload & analyze PDF            ║
+╠══════════════════════════════════════════════════════════════╣
+║  CONFIGURATION:                                              ║
+║    • Gemini AI: {gemini_status:<43}  ║
+║    • Rate Limit: 60 requests/minute                          ║
+║    • CORS: Enabled                                           ║
+╚══════════════════════════════════════════════════════════════╝
+    """
+    print(banner)
+    logger.info("HealthCheck API started successfully")
+
+
 @app.get("/health")
 @limiter.limit("60/minute")
 async def health_check(request: Request):
