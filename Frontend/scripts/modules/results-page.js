@@ -8,6 +8,8 @@ window.addEventListener('DOMContentLoaded', () => {
     // Recuperar los datos de sessionStorage
     const analysisResultString = sessionStorage.getItem('analysisResult');
     const fileName = sessionStorage.getItem('fileName');
+    const processingTime = sessionStorage.getItem('processingTime');
+    const numPages = sessionStorage.getItem('numPages');
     
     // Si no hay resultados, redirigir a la página principal
     if (!analysisResultString) {
@@ -25,6 +27,23 @@ window.addEventListener('DOMContentLoaded', () => {
         const resultsTitle = document.getElementById('resultsTitle');
         if (fileName) {
             resultsTitle.textContent = `Resultados de: ${fileName}`;
+        }
+        
+        // Show processing stats if available
+        if (processingTime || numPages) {
+            const statsContainer = document.getElementById('processingStats');
+            const processingTimeEl = document.getElementById('processingTime');
+            const numPagesEl = document.getElementById('numPages');
+            
+            if (processingTime && processingTimeEl) {
+                processingTimeEl.textContent = `${processingTime}s`;
+            }
+            if (numPages && numPagesEl) {
+                numPagesEl.textContent = numPages;
+            }
+            if (statsContainer) {
+                statsContainer.style.display = 'flex';
+            }
         }
 
         // Obtener los contenedores por su ID
