@@ -166,6 +166,8 @@ async function handleFiles(files) {
         // Store results
         sessionStorage.setItem('analysisResult', JSON.stringify(result.analysis_result));
         sessionStorage.setItem('fileName', file.name);
+        sessionStorage.setItem('processingTime', result.processing_time || 0);
+        sessionStorage.setItem('numPages', result.pages || 'N/A');
         
         // Redirect to results page
         window.location.href = 'Frontend/pages/Results.html';
