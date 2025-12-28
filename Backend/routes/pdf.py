@@ -3,6 +3,7 @@
 
 import json
 import logging
+import time
 from fastapi import APIRouter, File, UploadFile, HTTPException, Request
 from slowapi import Limiter
 from slowapi.util import get_remote_address
@@ -45,7 +46,8 @@ async def upload_pdf(request: Request, file: UploadFile = File(...)):
     Upload a PDF file and get AI-powered analysis of lab results.
     Rate limited to prevent API abuse.
     """
-    logger.info(f"📥 Recibiendo archivo: {file.filename}")
+    start_time = time.time()
+    logger.info(f"Recibiendo archivo: {file.filename}")
     
     # Validate file type
     if not file.filename.endswith('.pdf'):
@@ -110,10 +112,16 @@ async def upload_pdf(request: Request, file: UploadFile = File(...)):
                 detail=error_message
             )
         
+        # Calculate processing time
+        end_time = time.time()
+        processing_time = round(end_time - start_time, 2)
+        logger.info(f"Tiempo de procesamiento: {processing_time}s")
+        
         return {
             "message": "PDF procesado correctamente",
             "filename": file.filename,
             "pages": num_paginas,
+            "processing_time": processing_time,
             "analysis_result": analysis_result_json
         }
         
