@@ -86,6 +86,9 @@
 ### 🆕 New Features
 | Feature | Description |
 |---------|-------------|
+| **Processing Time Display** | Shows analysis duration and pages processed |
+| **API Status Monitoring** | Enhanced health check with detailed logging |
+| **Startup Banner** | Displays API info and configuration on server start |
 | **Rate Limiting** | API protection with 60 requests/minute limit |
 | **Enhanced Security** | CORS configuration and request validation |
 | **Modular Architecture** | Organized routes and services structure |
