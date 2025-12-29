@@ -10,6 +10,8 @@ window.addEventListener('DOMContentLoaded', () => {
     const fileName = sessionStorage.getItem('fileName');
     const processingTime = sessionStorage.getItem('processingTime');
     const numPages = sessionStorage.getItem('numPages');
+    const fileSize = sessionStorage.getItem('fileSize');
+    const wordCount = sessionStorage.getItem('wordCount');
     
     // Si no hay resultados, redirigir a la página principal
     if (!analysisResultString) {
@@ -30,16 +32,24 @@ window.addEventListener('DOMContentLoaded', () => {
         }
         
         // Show processing stats if available
-        if (processingTime || numPages) {
+        if (processingTime || numPages || fileSize || wordCount) {
             const statsContainer = document.getElementById('processingStats');
             const processingTimeEl = document.getElementById('processingTime');
             const numPagesEl = document.getElementById('numPages');
+            const fileSizeEl = document.getElementById('fileSize');
+            const wordCountEl = document.getElementById('wordCount');
             
             if (processingTime && processingTimeEl) {
                 processingTimeEl.textContent = `${processingTime}s`;
             }
             if (numPages && numPagesEl) {
                 numPagesEl.textContent = numPages;
+            }
+            if (fileSize && fileSizeEl) {
+                fileSizeEl.textContent = `${fileSize} MB`;
+            }
+            if (wordCount && wordCountEl) {
+                wordCountEl.textContent = wordCount.toLocaleString();
             }
             if (statsContainer) {
                 statsContainer.style.display = 'flex';

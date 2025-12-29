@@ -168,6 +168,8 @@ async function handleFiles(files) {
         sessionStorage.setItem('fileName', file.name);
         sessionStorage.setItem('processingTime', result.processing_time || 0);
         sessionStorage.setItem('numPages', result.pages || 'N/A');
+        sessionStorage.setItem('fileSize', result.file_size_mb || 'N/A');
+        sessionStorage.setItem('wordCount', result.word_count || 'N/A');
         
         // Redirect to results page
         window.location.href = 'Frontend/pages/Results.html';

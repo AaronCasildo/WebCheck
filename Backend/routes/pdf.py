@@ -77,12 +77,19 @@ async def upload_pdf(request: Request, file: UploadFile = File(...)):
         raise HTTPException(status_code=400, detail="El archivo no es un PDF válido.")
     
     try:
+        # Calculate file size in MB
+        file_size_mb = round(len(pdf_bytes) / (1024 * 1024), 2)
+        
         # Extract text from PDF
         texto_completo, num_paginas = extract_text_from_pdf(pdf_bytes)
         
+        # Count words extracted
+        word_count = len(texto_completo.split())
+        logger.info(f"Palabras extraídas: {word_count}")
+        
         # Generate AI analysis
         analysis_result_str = analyze_lab_results(texto_completo)
-        logger.info(f"🤖 Respuesta de IA recibida: {analysis_result_str[:200]}...")
+        logger.info(f"Respuesta de IA recibida: {analysis_result_str[:200]}...")
         
         # Parse JSON response with better error recovery
         try:
@@ -121,8 +128,8 @@ async def upload_pdf(request: Request, file: UploadFile = File(...)):
             "message": "PDF procesado correctamente",
             "filename": file.filename,
             "pages": num_paginas,
-            "processing_time": processing_time,
-            "analysis_result": analysis_result_json
+            "processing_time": processing_time,            "file_size_mb": file_size_mb,
+            "word_count": word_count,            "analysis_result": analysis_result_json
         }
         
     except Exception as e:
