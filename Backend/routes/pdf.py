@@ -4,6 +4,7 @@
 import json
 import logging
 import time
+from datetime import datetime
 from fastapi import APIRouter, File, UploadFile, HTTPException, Request
 from slowapi import Limiter
 from slowapi.util import get_remote_address
@@ -122,6 +123,7 @@ async def upload_pdf(request: Request, file: UploadFile = File(...)):
         # Calculate processing time
         end_time = time.time()
         processing_time = round(end_time - start_time, 2)
+        analysis_timestamp = datetime.now().isoformat()
         logger.info(f"Tiempo de procesamiento: {processing_time}s")
         
         return {
@@ -129,7 +131,8 @@ async def upload_pdf(request: Request, file: UploadFile = File(...)):
             "filename": file.filename,
             "pages": num_paginas,
             "processing_time": processing_time,            "file_size_mb": file_size_mb,
-            "word_count": word_count,            "analysis_result": analysis_result_json
+            "word_count": word_count,            "timestamp": analysis_timestamp,
+            "analysis_result": analysis_result_json
         }
         
     except Exception as e:
