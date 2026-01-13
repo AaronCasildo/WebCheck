@@ -170,6 +170,7 @@ async function handleFiles(files) {
         sessionStorage.setItem('numPages', result.pages || 'N/A');
         sessionStorage.setItem('fileSize', result.file_size_mb || 'N/A');
         sessionStorage.setItem('wordCount', result.word_count || 'N/A');
+        sessionStorage.setItem('analysisTimestamp', result.timestamp || new Date().toISOString());
         
         // Redirect to results page
         window.location.href = 'Frontend/pages/Results.html';
