@@ -12,6 +12,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const numPages = sessionStorage.getItem('numPages');
     const fileSize = sessionStorage.getItem('fileSize');
     const wordCount = sessionStorage.getItem('wordCount');
+    const analysisTimestamp = sessionStorage.getItem('analysisTimestamp');
     
     // Si no hay resultados, redirigir a la página principal
     if (!analysisResultString) {
@@ -29,6 +30,32 @@ window.addEventListener('DOMContentLoaded', () => {
         const resultsTitle = document.getElementById('resultsTitle');
         if (fileName) {
             resultsTitle.textContent = `Resultados de: ${fileName}`;
+        }
+        
+        // Show timestamp if available
+        if (analysisTimestamp) {
+            const timestampContainer = document.getElementById('analysisTimestamp');
+            const timestampText = document.getElementById('timestampText');
+            const timestampRelative = document.getElementById('timestampRelative');
+            
+            if (timestampText && timestampRelative) {
+                const date = new Date(analysisTimestamp);
+                const formattedDate = date.toLocaleString('es-ES', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                const relativeTime = getRelativeTime(date);
+                
+                timestampText.textContent = `Analizado el ${formattedDate}`;
+                timestampRelative.textContent = `(${relativeTime})`;
+                
+                if (timestampContainer) {
+                    timestampContainer.style.display = 'flex';
+                }
+            }
         }
         
         // Show processing stats if available
@@ -148,6 +175,30 @@ function formatMarkdownToHtml(text) {
 
     // Use marked.js to parse markdown
     return marked.parse(cleanedText);
+}
+
+/**
+ * Calculate relative time from a given date
+ * @param {Date} date - The date to compare
+ * @returns {string} - Relative time string (e.g., "hace 2 minutos")
+ */
+function getRelativeTime(date) {
+    const now = new Date();
+    const diffMs = now - date;
+    const diffSecs = Math.floor(diffMs / 1000);
+    const diffMins = Math.floor(diffSecs / 60);
+    const diffHours = Math.floor(diffMins / 60);
+    const diffDays = Math.floor(diffHours / 24);
+    
+    if (diffSecs < 60) {
+        return 'hace un momento';
+    } else if (diffMins < 60) {
+        return `hace ${diffMins} ${diffMins === 1 ? 'minuto' : 'minutos'}`;
+    } else if (diffHours < 24) {
+        return `hace ${diffHours} ${diffHours === 1 ? 'hora' : 'horas'}`;
+    } else {
+        return `hace ${diffDays} ${diffDays === 1 ? 'día' : 'días'}`;
+    }
 }
 
 /**

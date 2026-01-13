@@ -1012,6 +1012,34 @@ body.results-page-body {
     background-color: var(--bg-tertiary);
 }
 
+/* ======= ANALYSIS TIMESTAMP ======= */
+.analysis-timestamp {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 15px;
+    padding: 10px 20px;
+    background: var(--card-bg);
+    border-radius: 8px;
+    border-left: 4px solid var(--primary-blue);
+    box-shadow: 0 2px 8px var(--shadow-color);
+    font-size: 0.95rem;
+}
+
+.timestamp-icon {
+    font-size: 1.2rem;
+}
+
+.timestamp-text {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.timestamp-relative {
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
 /* ======= SUMMARY CARD (Resumen Ejecutivo) ======= */
 .summary-card {
     background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-dark) 100%);
