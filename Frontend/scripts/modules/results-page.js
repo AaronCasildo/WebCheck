@@ -13,6 +13,8 @@ window.addEventListener('DOMContentLoaded', () => {
     const fileSize = sessionStorage.getItem('fileSize');
     const wordCount = sessionStorage.getItem('wordCount');
     const analysisTimestamp = sessionStorage.getItem('analysisTimestamp');
+    const aiModel = sessionStorage.getItem('aiModel');
+    const aiTokensStr = sessionStorage.getItem('aiTokens');
     
     // Si no hay resultados, redirigir a la página principal
     if (!analysisResultString) {
@@ -80,6 +82,34 @@ window.addEventListener('DOMContentLoaded', () => {
             }
             if (statsContainer) {
                 statsContainer.style.display = 'flex';
+            }
+        }
+        
+        // Show AI metrics if available
+        if (aiModel || aiTokensStr) {
+            const aiMetricsContainer = document.getElementById('aiMetrics');
+            const aiModelEl = document.getElementById('aiModel');
+            const aiTokensInputEl = document.getElementById('aiTokensInput');
+            const aiTokensOutputEl = document.getElementById('aiTokensOutput');
+            const aiTokensTotalEl = document.getElementById('aiTokensTotal');
+            
+            if (aiModel && aiModelEl) {
+                aiModelEl.textContent = aiModel;
+            }
+            
+            if (aiTokensStr) {
+                try {
+                    const aiTokens = JSON.parse(aiTokensStr);
+                    if (aiTokensInputEl) aiTokensInputEl.textContent = aiTokens.input.toLocaleString();
+                    if (aiTokensOutputEl) aiTokensOutputEl.textContent = aiTokens.output.toLocaleString();
+                    if (aiTokensTotalEl) aiTokensTotalEl.textContent = aiTokens.total.toLocaleString();
+                } catch (e) {
+                    console.error('Error parsing AI tokens:', e);
+                }
+            }
+            
+            if (aiMetricsContainer) {
+                aiMetricsContainer.style.display = 'flex';
             }
         }
 

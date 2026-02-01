@@ -89,8 +89,12 @@ async def upload_pdf(request: Request, file: UploadFile = File(...)):
         logger.info(f"Palabras extraídas: {word_count}")
         
         # Generate AI analysis
-        analysis_result_str = analyze_lab_results(texto_completo)
+        ai_response = analyze_lab_results(texto_completo)
+        analysis_result_str = ai_response["text"]
+        ai_model = ai_response["model"]
+        ai_tokens = ai_response["tokens"]
         logger.info(f"Respuesta de IA recibida: {analysis_result_str[:200]}...")
+        logger.info(f"Modelo: {ai_model}, Tokens: {ai_tokens['total']}")
         
         # Parse JSON response with better error recovery
         try:
@@ -130,8 +134,12 @@ async def upload_pdf(request: Request, file: UploadFile = File(...)):
             "message": "PDF procesado correctamente",
             "filename": file.filename,
             "pages": num_paginas,
-            "processing_time": processing_time,            "file_size_mb": file_size_mb,
-            "word_count": word_count,            "timestamp": analysis_timestamp,
+            "processing_time": processing_time,
+            "file_size_mb": file_size_mb,
+            "word_count": word_count,
+            "timestamp": analysis_timestamp,
+            "ai_model": ai_model,
+            "ai_tokens": ai_tokens,
             "analysis_result": analysis_result_json
         }
         
