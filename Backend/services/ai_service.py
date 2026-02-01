@@ -21,7 +21,7 @@ model = genai.GenerativeModel(
 )
 
 
-def analyze_lab_results(texto_completo: str) -> str:
+def analyze_lab_results(texto_completo: str) -> dict:
     """
     Analyze laboratory results using Gemini AI.
     
@@ -29,7 +29,7 @@ def analyze_lab_results(texto_completo: str) -> str:
         texto_completo: The extracted text from the lab results PDF
         
     Returns:
-        JSON string with the analysis results
+        Dict with analysis results and metadata (tokens, model)
     """
     prompt = f"""
         Eres un hematólogo experto analizando resultados de laboratorio. 
@@ -110,7 +110,31 @@ def analyze_lab_results(texto_completo: str) -> str:
     
     try:
         response = model.generate_content(prompt)
-        return response.text
+        
+        # Extract token usage if available
+        input_tokens = 0
+        output_tokens = 0
+        total_tokens = 0
+        
+        if hasattr(response, 'usage_metadata'):
+            input_tokens = getattr(response.usage_metadata, 'prompt_token_count', 0)
+            output_tokens = getattr(response.usage_metadata, 'candidates_token_count', 0)
+            total_tokens = getattr(response.usage_metadata, 'total_token_count', 0)
+            logger.info(f"Tokens utilizados - Input: {input_tokens}, Output: {output_tokens}, Total: {total_tokens}")
+        
+        return {
+            "text": response.text,
+            "model": GEMINI_MODEL,
+            "tokens": {
+                "input": input_tokens,
+                "output": output_tokens,
+                "total": total_tokens
+            }
+        }
     except Exception as e:
         logger.error(f'Error generating response from Gemini: {e}')
-        return '{ "error": "No se pudo generar el análisis.", "details": "' + str(e) + '" }'
+        return {
+            "text": '{ "error": "No se pudo generar el análisis.", "details": "' + str(e) + '" }',
+            "model": GEMINI_MODEL,
+            "tokens": {"input": 0, "output": 0, "total": 0}
+        }
