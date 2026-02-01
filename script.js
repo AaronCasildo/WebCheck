@@ -171,6 +171,8 @@ async function handleFiles(files) {
         sessionStorage.setItem('fileSize', result.file_size_mb || 'N/A');
         sessionStorage.setItem('wordCount', result.word_count || 'N/A');
         sessionStorage.setItem('analysisTimestamp', result.timestamp || new Date().toISOString());
+        sessionStorage.setItem('aiModel', result.ai_model || 'N/A');
+        sessionStorage.setItem('aiTokens', JSON.stringify(result.ai_tokens || {input: 0, output: 0, total: 0}));
         
         // Redirect to results page
         window.location.href = 'Frontend/pages/Results.html';
