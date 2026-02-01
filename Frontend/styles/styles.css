@@ -1074,7 +1074,8 @@ body.results-page-body {
     align-items: center;
     gap: 6px;
     font-size: 0.9rem;
-    min-width: 200px;
+    min-width: 150px;
+    flex: 0 1 auto;
 }
 
 .stat-icon {
