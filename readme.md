@@ -180,13 +180,21 @@ WebCheck/
 │   └── outputs/           # Sample outputs
 │
 ├── Frontend/
-│   ├── Results.html       # Results display page
-│   ├── Login.html         # Login page
-│   ├── Register.html      # Registration page
-│   ├── styles.css         # Global styles + theming
-│   ├── results-page.js    # Results page logic
-│   ├── pdf-generator.js   # PDF export module
-│   └── theme-toggle.js    # Dark mode functionality
+│   ├── pages/
+│   │   ├── Results.html   # Results display page
+│   │   ├── History.html   # History page for past results
+│   │   ├── Login.html     # Login page
+│   │   └── Register.html  # Registration page
+│   ├── scripts/
+│   │   ├── modules/
+│   │   │   ├── results-page.js    # Results page logic
+│   │   │   ├── pdf-generator.js   # PDF export module
+│   │   │   └── history.js         # History page logic
+│   │   └── utils/
+│   │       ├── theme-toggle.js    # Dark mode functionality
+│   │       └── history-manager.js # Local storage management
+│   └── styles/
+│       └── styles.css     # Global styles + theming
 │
 └── media/                 # Images and icons
 ```
