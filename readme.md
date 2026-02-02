@@ -86,6 +86,10 @@
 ### 🆕 New Features
 | Feature | Description |
 |---------|-------------|
+| **History Page** | View and manage past analysis results |
+| **History Manager** | Local storage system for saved analyses |
+| **Sort Controls** | Organize history by name (A-Z, Z-A) |
+| **Quick Access** | Breadcrumb navigation and direct result links |
 | **Processing Time Display** | Shows analysis duration and pages processed |
 | **API Status Monitoring** | Enhanced health check with detailed logging |
 | **Startup Banner** | Displays API info and configuration on server start |
