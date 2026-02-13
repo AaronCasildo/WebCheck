@@ -9,6 +9,9 @@ from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
 
+# database and models
+from models import db, User, AnalysisResult
+
 from config import CORS_ORIGINS, GEMINI_API_KEY
 from routes.pdf import router as pdf_router
 
@@ -25,6 +28,14 @@ app = FastAPI(
     description="AI-powered laboratory results interpreter",
     version="0.1.0"
 )
+
+db.init_app(app)  # Initialize database with FastAPI app
+
+# Create database tables on startup
+@app.on_event("startup")
+async def startup():
+    with app.app_context():
+        db.create_all()
 
 # Add rate limiter to app state
 app.state.limiter = limiter
