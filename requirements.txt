@@ -18,5 +18,17 @@ python-dotenv
 # Rate limiting para prevenir abuso de API
 slowapi
 
+# ORM para manejar la base de datos SQLite
+flask-sqlalchemy 
+
+# CORS para permitir solicitudes desde el frontend
+flask-cors 
+
+# Autenticación JWT para proteger rutas de la API
+flask-jwt-extended 
+
+# Manejo de contraseñas (hashing)
+werkzeug
+
 # Para instalar las dependencias de este archivo ejecuta:
 # pip install -r requirements.txt
