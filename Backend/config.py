@@ -15,6 +15,9 @@ if not GEMINI_API_KEY:
 # CORS Configuration
 CORS_ORIGINS = ["*"]  # TODO: Change to specific origins in production
 
+#DB Configuration
+DATABASE_URL = "sqlite:///./webcheck.db"  # SQLite database URL
+
 # File Upload Configuration
 MAX_FILE_SIZE_MB = 10  # Maximum file size in megabytes
 MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024
