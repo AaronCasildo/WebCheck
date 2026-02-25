@@ -3,9 +3,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker
 from datetime import datetime, timezone
 from werkzeug.security import generate_password_hash, check_password_hash
-
-# Database configuration
-DATABASE_URL = "sqlite:///./healthcheck.db"
+from config import DATABASE_URL
 
 Base = declarative_base()
 
