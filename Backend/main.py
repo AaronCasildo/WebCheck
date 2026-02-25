@@ -13,6 +13,7 @@ from slowapi.errors import RateLimitExceeded
 from models import User, AnalysisResult, init_db
 
 from config import CORS_ORIGINS, GEMINI_API_KEY
+from routes.auth import router as auth_router
 from routes.pdf import router as pdf_router
 
 # Configure logging
@@ -51,6 +52,7 @@ app.add_middleware(
 )
 
 # Register routers
+app.include_router(auth_router)
 app.include_router(pdf_router)
 
 
