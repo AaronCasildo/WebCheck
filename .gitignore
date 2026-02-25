@@ -30,3 +30,8 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Local databases
+*.db
+*.sqlite
+*.sqlite3
