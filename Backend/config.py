@@ -18,6 +18,11 @@ CORS_ORIGINS = ["*"]  # TODO: Change to specific origins in production
 #DB Configuration
 DATABASE_URL = "sqlite:///./webcheck.db"  # SQLite database URL
 
+# JWT Authentication Configuration
+JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY', 'change-me-in-production')
+JWT_ALGORITHM = 'HS256'
+JWT_ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv('JWT_ACCESS_TOKEN_EXPIRE_MINUTES', '60'))
+
 # File Upload Configuration
 MAX_FILE_SIZE_MB = 10  # Maximum file size in megabytes
 MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024

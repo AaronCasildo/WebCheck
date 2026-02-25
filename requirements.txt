@@ -24,5 +24,8 @@ sqlalchemy
 # Manejo de contraseñas (hashing)
 werkzeug
 
+# JWT para autenticación
+python-jose[cryptography]
+
 # Para instalar las dependencias de este archivo ejecuta:
 # pip install -r requirements.txt
